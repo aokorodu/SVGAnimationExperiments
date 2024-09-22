@@ -84,9 +84,10 @@
     const engine = Engine.create();
     const holder = document.querySelector("#holder");
     const balls = [];
+    const pegs = [];
     const ballGraphics = [];
     const num = 100;
-    const maxRadius = 8;
+    const maxRadius = 5;
 
     const makeParticles = () => {
       for (let i = 0; i < num; i++) {
@@ -147,16 +148,16 @@
               : getRectBody(xpos, ypos, radius, `${r}${c}`, true);
           const p = new Particle(xpos, ypos, radius, b, type, true);
           p.init(holder, "#FFFFFF");
-          balls.push(b);
+          pegs.push(b);
           ballGraphics.push(p);
         }
       }
     };
 
-    const floor = Bodies.rectangle(500, 1050, 1000, 100, {
-      isStatic: true,
-      id: "floor",
-    });
+    // const floor = Bodies.rectangle(500, 1050, 1000, 100, {
+    //   isStatic: true,
+    //   id: "floor",
+    // });
 
     const leftwall = Bodies.rectangle(-50, 500, 100, 1000, {
       isStatic: true,
@@ -177,12 +178,20 @@
       ballGraphics.forEach((particle) => {
         particle.update();
       });
+
+      balls.forEach((ball) => {
+        if (ball.position.y > 1100) {
+          Matter.Body.setPosition(ball, { x: 500, y: 0 });
+          // Matter.Body.setVelocity(ball, { x: 0, y: 0 });
+          Matter.Body.setSpeed(ball, 0);
+        }
+      });
       window.requestAnimationFrame(update);
     };
 
     const initWorld = () => {
       let runner = Runner.create();
-      World.add(engine.world, [...balls, leftwall, rightwall, floor]);
+      World.add(engine.world, [...balls, ...pegs, leftwall, rightwall]);
       Runner.run(runner, engine);
     };
 
