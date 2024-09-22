@@ -121,6 +121,14 @@
         holder.appendChild(horizontalBlade);
         holder.appendChild(verticalBlade);
       }
+      update() {
+        const angle = (this.matterbody.bodies[0].angle * 180) / Math.PI;
+        this.graphicHolder.setAttribute(
+          "transform",
+          `translate(${this.x} ${this.y}) rotate(${angle})`
+        );
+        // Matter.Composite.rotate(this.matterbody, 0.01, { x: 500, y: 500 });
+      }
     }
     const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
     let w = 1000;
@@ -226,6 +234,10 @@
         console.log("angle:", windmill.bodies[0].angle);
         const angle = windmill.bodies[0].angle;
         Matter.Composite.rotate(windmill, 0.01, { x: 500, y: 500 });
+      });
+
+      windmillGraphics.forEach((windmill) => {
+        windmill.update();
       });
       window.requestAnimationFrame(update);
     };
