@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script> -->
-    <script src="matter.js"></script>
+    <script src="JS/matter.js"></script>
+    <script src="JS/Particle.js"></script>
+    <script src="JS/Windmill.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -14,122 +16,6 @@
     </svg>
   </body>
   <script>
-    class Particle {
-      constructor(x, y, r, matterball, type = "circle", isStatic = false) {
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.graphicHolder = null;
-        this.graphic = null;
-        this.matterball = matterball;
-        this.type = type;
-        this.namespace = "http://www.w3.org/2000/svg";
-        this.isStatic = isStatic;
-      }
-
-      init(container, color = "#FF0000") {
-        this.graphicHolder = this.getGraphicHolder();
-        this.graphic =
-          this.type == "circle" ? this.makeACircle() : this.makeARect();
-        this.graphic.setAttribute("fill", color);
-        this.graphic.setAttribute("fill-opacity", 0.2);
-        this.graphic.setAttribute("stroke", color);
-        this.graphic.setAttribute("stroke-width", "3");
-        this.graphic.setAttribute("stroke-opacity", 1);
-        this.graphicHolder.appendChild(this.graphic);
-        container.appendChild(this.graphicHolder);
-      }
-
-      makeACircle() {
-        const shape = document.createElementNS(this.namespace, "circle");
-        shape.setAttribute("cx", 0);
-        shape.setAttribute("cy", 0);
-        shape.setAttribute("r", this.r);
-
-        return shape;
-      }
-
-      makeARect() {
-        const shape = document.createElementNS(this.namespace, "rect");
-        shape.setAttribute("x", -this.r);
-        shape.setAttribute("y", -this.r);
-        shape.setAttribute("width", this.r * 2);
-        shape.setAttribute("height", this.r * 2);
-
-        return shape;
-      }
-
-      getGraphicHolder() {
-        const namespace = "http://www.w3.org/2000/svg";
-        const h = document.createElementNS(namespace, "g");
-        return h;
-      }
-
-      update() {
-        if (this.static) return;
-
-        const pos = this.matterball.position;
-        const angle = (180 / Math.PI) * this.matterball.angle;
-        this.graphicHolder.setAttribute(
-          "transform",
-          `translate(${pos.x} ${pos.y}) rotate(${angle})`
-        );
-      }
-    }
-
-    class Windmill {
-      constructor(x, y, w, matterbody = null) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.bladeHeight = 20;
-        this.graphicHolder = null;
-        this.matterbody = matterbody;
-        this.namespace = "http://www.w3.org/2000/svg";
-      }
-
-      init(container) {
-        this.graphicHolder = document.createElementNS(this.namespace, "g");
-        container.appendChild(this.graphicHolder);
-        this.graphicHolder.setAttribute(
-          "transform",
-          `translate(${this.x} ${this.y})`
-        );
-
-        this.makeBlades(this.graphicHolder);
-        container.appendChild(this.graphicHolder);
-      }
-
-      makeBlades(holder) {
-        const horizontalBlade = document.createElementNS(
-          this.namespace,
-          "rect"
-        );
-        horizontalBlade.setAttribute("x", -this.w / 2);
-        horizontalBlade.setAttribute("y", -this.bladeHeight / 2);
-        horizontalBlade.setAttribute("width", this.w);
-        horizontalBlade.setAttribute("height", this.bladeHeight);
-        horizontalBlade.setAttribute("fill", "#FFFFFF");
-
-        const verticalBlade = document.createElementNS(this.namespace, "rect");
-        verticalBlade.setAttribute("x", -this.bladeHeight / 2);
-        verticalBlade.setAttribute("y", -this.w / 2);
-        verticalBlade.setAttribute("width", this.bladeHeight);
-        verticalBlade.setAttribute("height", this.w);
-        verticalBlade.setAttribute("fill", "white");
-
-        holder.appendChild(horizontalBlade);
-        holder.appendChild(verticalBlade);
-      }
-      update() {
-        const angle = (this.matterbody.bodies[0].angle * 180) / Math.PI;
-        this.graphicHolder.setAttribute(
-          "transform",
-          `translate(${this.x} ${this.y}) rotate(${angle})`
-        );
-        // Matter.Composite.rotate(this.matterbody, 0.01, { x: 500, y: 500 });
-      }
-    }
     const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
     let w = 1000;
     let h = 1000;
