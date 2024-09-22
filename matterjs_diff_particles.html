@@ -142,7 +142,8 @@
     const windmillGraphics = [];
     const ballGraphics = [];
     const num = 100;
-    const maxRadius = 5;
+    const maxRadius = 3;
+    const wmbladeWidth = 600;
 
     const makeParticles = () => {
       for (let i = 0; i < num; i++) {
@@ -166,7 +167,7 @@
       const b = Bodies.circle(xpos, ypos, radius, {
         id: `ball_${index}`,
         friction: 0,
-        restitution: 1,
+        restitution: 0.6,
         isStatic: static,
       });
 
@@ -177,7 +178,7 @@
       const b = Bodies.rectangle(xpos, ypos, radius * 2, radius * 2, {
         id: `ball_${index}`,
         friction: 0,
-        restitution: 1,
+        restitution: 0.6,
         isStatic: static,
       });
 
@@ -195,14 +196,14 @@
     });
 
     const makeWindmills = (xpos, ypos, width) => {
-      const h = Bodies.rectangle(0, 0, 300, 20, {
+      const h = Bodies.rectangle(0, 0, wmbladeWidth, 20, {
         id: `horiz_blade`,
         friction: 0,
         restitution: 1,
         isStatic: true,
       });
 
-      const v = Bodies.rectangle(0, 0, 20, 300, {
+      const v = Bodies.rectangle(0, 0, 20, wmbladeWidth, {
         id: `vert_blade`,
         friction: 0,
         restitution: 1,
@@ -213,27 +214,25 @@
       Matter.Composite.add(comp, [h, v]);
       Matter.Composite.translate(comp, { x: 500, y: 500 });
       windmills.push(comp);
-      const wm = new Windmill(500, 500, 300, comp); //new Windmill(500, 500, 300,);
+      const wm = new Windmill(500, 500, wmbladeWidth, comp); //new Windmill(500, 500, wmbladeWidth,);
       wm.init(holder);
       windmillGraphics.push(wm);
     };
     const update = () => {
-      ballGraphics.forEach((particle) => {
-        particle.update();
-      });
-
       balls.forEach((ball) => {
         if (ball.position.y > 1100) {
-          Matter.Body.setPosition(ball, { x: 500, y: 0 });
+          Matter.Body.setPosition(ball, { x: 400 + Math.random() * 200, y: 0 });
           Matter.Body.setSpeed(ball, 0);
         }
       });
 
+      ballGraphics.forEach((particle) => {
+        particle.update();
+      });
+
       windmills.forEach((windmill) => {
-        //windmill.rotate(windmill.angle + 0.1);
-        console.log("angle:", windmill.bodies[0].angle);
         const angle = windmill.bodies[0].angle;
-        Matter.Composite.rotate(windmill, 0.01, { x: 500, y: 500 });
+        Matter.Composite.rotate(windmill, 0.005, { x: 500, y: 500 });
       });
 
       windmillGraphics.forEach((windmill) => {
