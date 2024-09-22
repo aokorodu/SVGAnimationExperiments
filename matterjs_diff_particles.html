@@ -77,6 +77,51 @@
       }
     }
 
+    class Windmill {
+      constructor(x, y, w, matterbody = null) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.bladeHeight = 20;
+        this.graphicHolder = null;
+        this.matterbody = matterbody;
+        this.namespace = "http://www.w3.org/2000/svg";
+      }
+
+      init(container) {
+        this.graphicHolder = document.createElementNS(this.namespace, "g");
+        container.appendChild(this.graphicHolder);
+        this.graphicHolder.setAttribute(
+          "transform",
+          `translate(${this.x} ${this.y})`
+        );
+
+        this.makeBlades(this.graphicHolder);
+        container.appendChild(this.graphicHolder);
+      }
+
+      makeBlades(holder) {
+        const horizontalBlade = document.createElementNS(
+          this.namespace,
+          "rect"
+        );
+        horizontalBlade.setAttribute("x", -this.w / 2);
+        horizontalBlade.setAttribute("y", -this.bladeHeight / 2);
+        horizontalBlade.setAttribute("width", this.w);
+        horizontalBlade.setAttribute("height", this.bladeHeight);
+        horizontalBlade.setAttribute("fill", "#FFFFFF");
+
+        const verticalBlade = document.createElementNS(this.namespace, "rect");
+        verticalBlade.setAttribute("x", -this.bladeHeight / 2);
+        verticalBlade.setAttribute("y", -this.w / 2);
+        verticalBlade.setAttribute("width", this.bladeHeight);
+        verticalBlade.setAttribute("height", this.w);
+        verticalBlade.setAttribute("fill", "white");
+
+        holder.appendChild(horizontalBlade);
+        holder.appendChild(verticalBlade);
+      }
+    }
     const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
     let w = 1000;
     let h = 1000;
@@ -85,6 +130,8 @@
     const holder = document.querySelector("#holder");
     const balls = [];
     const pegs = [];
+    const windmills = [];
+    const windmillGraphics = [];
     const ballGraphics = [];
     const num = 100;
     const maxRadius = 5;
@@ -129,36 +176,6 @@
       return b;
     };
 
-    const makePegs = () => {
-      const rows = 4;
-      const cols = 8;
-      const gap = 50;
-      const radius = 30;
-      const startX =
-        radius + (w - (cols * (radius * 2) + (cols - 1) * gap)) / 2;
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const xpos = startX + c * (radius * 2 + gap);
-          const ypos = 200 + r * 200;
-          const type = "circle";
-
-          const b =
-            type == "circle"
-              ? getCircBody(xpos, ypos, radius, `${r}${c}`, true)
-              : getRectBody(xpos, ypos, radius, `${r}${c}`, true);
-          const p = new Particle(xpos, ypos, radius, b, type, true);
-          p.init(holder, "#FFFFFF");
-          pegs.push(b);
-          ballGraphics.push(p);
-        }
-      }
-    };
-
-    // const floor = Bodies.rectangle(500, 1050, 1000, 100, {
-    //   isStatic: true,
-    //   id: "floor",
-    // });
-
     const leftwall = Bodies.rectangle(-50, 500, 100, 1000, {
       isStatic: true,
       id: "leftwall",
@@ -169,11 +186,29 @@
       id: "righttwall",
     });
 
-    // const peg = Bodies.circle(500, 500, 100, {
-    //   isStatic: true,
-    //   id: "peg",
-    // });
+    const makeWindmills = (xpos, ypos, width) => {
+      const h = Bodies.rectangle(0, 0, 300, 20, {
+        id: `horiz_blade`,
+        friction: 0,
+        restitution: 1,
+        isStatic: true,
+      });
 
+      const v = Bodies.rectangle(0, 0, 20, 300, {
+        id: `vert_blade`,
+        friction: 0,
+        restitution: 1,
+        isStatic: true,
+      });
+
+      const comp = Matter.Composite.create();
+      Matter.Composite.add(comp, [h, v]);
+      Matter.Composite.translate(comp, { x: 500, y: 500 });
+      windmills.push(comp);
+      const wm = new Windmill(500, 500, 300, comp); //new Windmill(500, 500, 300,);
+      wm.init(holder);
+      windmillGraphics.push(wm);
+    };
     const update = () => {
       ballGraphics.forEach((particle) => {
         particle.update();
@@ -182,21 +217,28 @@
       balls.forEach((ball) => {
         if (ball.position.y > 1100) {
           Matter.Body.setPosition(ball, { x: 500, y: 0 });
-          // Matter.Body.setVelocity(ball, { x: 0, y: 0 });
           Matter.Body.setSpeed(ball, 0);
         }
+      });
+
+      windmills.forEach((windmill) => {
+        //windmill.rotate(windmill.angle + 0.1);
+        console.log("angle:", windmill.bodies[0].angle);
+        const angle = windmill.bodies[0].angle;
+        Matter.Composite.rotate(windmill, 0.01, { x: 500, y: 500 });
       });
       window.requestAnimationFrame(update);
     };
 
     const initWorld = () => {
       let runner = Runner.create();
-      World.add(engine.world, [...balls, ...pegs, leftwall, rightwall]);
+      World.add(engine.world, [...balls, ...windmills, leftwall, rightwall]);
       Runner.run(runner, engine);
     };
 
     makeParticles();
-    makePegs();
+    makeWindmills();
+
     initWorld();
 
     update();
