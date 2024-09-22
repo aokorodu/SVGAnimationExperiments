@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script> -->
+    <script src="matter.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="500" height="500" viewBox="0 0 1000 1000">
+      <rect x="0" y="0" width="1000" height="1000" fill="black" />
+      <circle id="peg" cx="500" cy="500" r="100" fill="white" />
+      <g id="holder"></g>
+    </svg>
+  </body>
+  <script>
+    // let Engine = Matter.Engine,
+    //   Render = Matter.Render,
+    //   Runner = Matter.Runner,
+    //   Bodies = Matter.Bodies,
+    //   Composite = Matter.Composite;
+
+    const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
+    let w = 1000;
+    let h = 1000;
+    let radius = 20;
+    const engine = Engine.create();
+    // const ballGraphic = document.querySelector("#ball");
+    const holder = document.querySelector("#holder");
+    const balls = [];
+    const ballGraphics = [];
+    const num = 30;
+
+    const makeBalls = () => {
+      for (let i = 0; i < num; i++) {
+        const xpos = Math.random() * 900;
+        const b = Bodies.circle(500, i * (-radius * 2), radius, {
+          id: `ball_${i}`,
+          friction: 0,
+          restitution: 1,
+        });
+        balls.push(b);
+      }
+    };
+
+    const makeBallGraphics = () => {
+      for (let i = 0; i < num; i++) {
+        namespace = "http://www.w3.org/2000/svg";
+        const b = document.createElementNS(namespace, "circle");
+        b.setAttribute("cx", balls[i].position.x);
+        b.setAttribute("cy", balls[i].position.y);
+        b.setAttribute("r", radius);
+        b.setAttribute("fill", "white");
+        holder.appendChild(b);
+        ballGraphics.push(b);
+      }
+    };
+
+    // const ball = Bodies.circle(500, 0, 10, {
+    //   id: "ball",
+    //   friction: 0,
+    //   restitution: 1,
+    // });
+
+    //balls.push(ball);
+
+    const floor = Bodies.rectangle(500, 1050, 1000, 100, {
+      isStatic: true,
+      id: "floor",
+    });
+
+    const leftwall = Bodies.rectangle(-50, 500, 100, 1000, {
+      isStatic: true,
+      id: "leftwall",
+    });
+
+    const rightwall = Bodies.rectangle(1050, 500, 100, 1000, {
+      isStatic: true,
+      id: "righttwall",
+    });
+
+    const peg = Bodies.circle(500, 500, 100, {
+      isStatic: true,
+      id: "peg",
+    });
+
+    const update = () => {
+      balls.forEach((ball, index) => {
+        const pos = ball.position;
+        ballGraphics[index].setAttribute("cy", pos.y);
+        ballGraphics[index].setAttribute("cx", pos.x);
+      });
+
+      //Engine.update(engine);
+      window.requestAnimationFrame(update);
+    };
+
+    makeBalls();
+    makeBallGraphics();
+    let runner = Runner.create();
+
+    // run the engine
+
+    World.add(engine.world, [...balls, leftwall, rightwall, peg, floor]);
+    Runner.run(runner, engine);
+
+    update();
+  </script>
+</html>

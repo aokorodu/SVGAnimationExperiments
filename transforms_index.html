@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="700" height="700" viewbox="-100 -100 700 700">
+      <defs>
+        <clipPath id="rect_CP">
+          <rect x="0" y="0" width="500" height="500" />
+        </clipPath>
+        <g id="box" stroke="#ccc" fill="none">
+          <rect x="0" y="0" width="10" height="10" />
+        </g>
+        <pattern
+          id="tile"
+          x="0"
+          y="0"
+          width="10"
+          height="10"
+          patternUnits="userSpaceOnUse"
+        >
+          <use href="#box" x="0" y="0"></use>
+        </pattern>
+      </defs>
+      <g clip-path="url(#rect_CP)">
+        <g id="rect">
+          <rect x="0" y="0" width="500" height="500" fill="url(#tile)" />
+          <rect
+            x="100"
+            y="100"
+            width="300"
+            height="300"
+            fill="black"
+            fill-opacity=".5"
+          />
+        </g>
+      </g>
+      <rect x="0" y="0" width="500" height="500" fill="none" stroke="black" />
+      <g id="origin">
+        <circle cx="0" cy="0" r="5" fill="black" stroke="none" />
+        <text
+          id="originText"
+          x="0"
+          y="-10"
+          text-anchor="middle"
+          dominant-baseline="auto"
+          fill="black"
+        >
+          (0,0)
+        </text>
+      </g>
+    </svg>
+    <div>
+      <input
+        id="scaleSlider"
+        type="range"
+        min=".5"
+        max="5"
+        step=".1"
+        value="1"
+      />
+      <div id="scaleText">scale: 1</div>
+      <input
+        id="rotateSlider"
+        type="range"
+        min="0"
+        max="360"
+        step="1"
+        value="0"
+      />
+      <div id="rotateText">rotation: 0</div>
+      <input id="originX" type="range" min="0" max="500" step="10" value="0" />
+      <div id="xposText">x: 0</div>
+      <input id="originY" type="range" min="0" max="500" step="10" value="0" />
+      <div id="yposText">y: 0</div>
+    </div>
+  </body>
+  <script>
+    const origin = document.getElementById("origin");
+    const originText = document.getElementById("originText");
+    const scaleText = document.getElementById("scaleText");
+    const rotateText = document.getElementById("rotateText");
+    const xposText = document.getElementById("xposText");
+    const yposText = document.getElementById("yposText");
+    const rect = document.getElementById("rect");
+
+    const scaleSlider = document.getElementById("scaleSlider");
+    const rotateSlider = document.getElementById("rotateSlider");
+    const xSlider = document.getElementById("originX");
+    const ySlider = document.getElementById("originY");
+
+    scaleSlider.addEventListener("input", (e) => {
+      update();
+    });
+    rotateSlider.addEventListener("input", (e) => {
+      update();
+    });
+    xSlider.addEventListener("input", (e) => {
+      update();
+    });
+    ySlider.addEventListener("input", (e) => {
+      update();
+    });
+
+    const update = () => {
+      const xpos = parseInt(xSlider.value);
+      const ypos = parseInt(ySlider.value);
+      const scaleVal = parseFloat(scaleSlider.value);
+      const rotateVal = parseInt(rotateSlider.value);
+      const str = `scale(${scaleVal}) rotate(${rotateVal} ${xpos} ${ypos})`;
+      rect.setAttribute("transform", str);
+
+      origin.setAttribute(
+        "transform",
+        `translate(${scaleVal * xpos} ${scaleVal * ypos})`
+      );
+
+      originText.textContent = `(${xpos},${ypos})`;
+      scaleText.innerText = `scale: ${scaleVal}`;
+      xposText.innerText = `x: ${xpos}`;
+      yposText.innerText = `y: ${ypos}`;
+    };
+  </script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="500" height="500" viewBox="0 0 500 500">
+      <circle id="myCircle" cx="100" cy="150" r="10" fill="green" />
+    </svg>
+  </body>
+  <script>
+    const myCircle = document.querySelector("#myCircle");
+    const width = 500;
+    const height = 500;
+    const r = 10;
+    const maxX = width - r;
+    const maxY = height - r;
+    const startPos = {
+      x: width / 2,
+      y: height / 2,
+    };
+    let pos = {
+      x: width / 2,
+      y: height / 2,
+    };
+
+    const speed = {
+      x: Math.random() * 10 - 5,
+      y: Math.random() * 10 - 5,
+    };
+
+    const playAnimation = () => {
+      moveCircle();
+    };
+
+    const moveCircle = () => {
+      pos.x += speed.x;
+      pos.y += speed.y;
+
+      if (pos.x > maxX) {
+        pos.x = maxX;
+        speed.x *= -1;
+      }
+      if (pos.x < r) {
+        pos.x = r;
+        speed.x *= -1;
+      }
+
+      if (pos.y > maxY) {
+        pos.y = maxY;
+        speed.y *= -1;
+      }
+      if (pos.y < r) {
+        pos.y = r;
+        speed.y *= -1;
+      }
+
+      myCircle.setAttribute("cx", String(pos.x));
+      myCircle.setAttribute("cy", String(pos.y));
+
+      window.requestAnimationFrame(moveCircle);
+    };
+
+    playAnimation();
+  </script>
+</html>

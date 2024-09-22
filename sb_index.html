@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg id="stage" width="500" height="500" viewBox="0 0 500 500">
+      <path
+        id="path"
+        d="M 0,250 C 25,100 225,100 250,250 S 475,400 500,250"
+        stroke="black"
+        stroke-width="2"
+        fill="none"
+      />
+      <path
+        id="connector"
+        d="M225, 100 L275, 400"
+        stroke="black"
+        stroke-width="1"
+        stroke-dasharray="10"
+      />
+      <text x="225" y="70" textAnchor="middle">Drag the control points</text>
+      <text x="250" y="460" textAnchor="middle">
+        "M 0,250
+        <tspan stroke="red" id="pathText">
+          C 25,100 225,100 250,250 S 475,400
+        </tspan>
+        500,250"
+      </text>
+      <circle id="ball_1" cx="25" cy="100" r="20" fill="red" />
+      <circle id="ball_2" cx="225" cy="100" r="20" fill="green" />
+      <circle id="ball_3" cx="475" cy="400" r="20" fill="blue" />
+      <circle
+        id="ball_reflection"
+        cx="275"
+        cy="400"
+        r="20"
+        fill="white"
+        stroke="black"
+        stroke-width="2"
+        stroke-dasharray="3"
+      />
+    </svg>
+  </body>
+  <script>
+    const path = document.getElementById("path");
+    const ball_1 = document.getElementById("ball_1");
+    const ball_2 = document.getElementById("ball_2");
+    const ball_reflection = document.getElementById("ball_reflection");
+    const ball_3 = document.getElementById("ball_3");
+    const connector = document.getElementById("connector");
+    let currentBall = null;
+    const stage = document.getElementById("stage");
+    const pathText = document.getElementById("pathText");
+    let dragging = false;
+
+    const init = () => {
+      ball_1.addEventListener("mousedown", startDragging);
+      ball_2.addEventListener("mousedown", startDragging);
+      ball_3.addEventListener("mousedown", startDragging);
+    };
+    const startDragging = (e) => {
+      dragging = true;
+      currentBall = e.target;
+      stage.addEventListener("mousemove", drag);
+      stage.addEventListener("mouseup", stopDragging);
+      stage.addEventListener("touchmove", touchdrag);
+      stage.addEventListener("touchend", stopDragging);
+    };
+
+    const touchdrag = (e) => {
+      if (!dragging) return;
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const x = e.touches[0].clientX;
+      const y = e.touches[0].clientY;
+
+      if (stage != null) {
+        const p = toSVGPoint(stage, x, y);
+        console.log("p ", p.y);
+        if (p.x < 20 || p.x > 480 || p.y < 20 || p.y > 480) {
+          stopDragging();
+          return;
+        }
+
+        const xpos = p.x;
+        const ypos = p.y;
+        const xmirror = 500 - xpos;
+        const ymirror = 500 - ypos;
+        currentBall.setAttribute("cx", String(Math.round(p.x)));
+        currentBall.setAttribute("cy", String(Math.round(p.y)));
+        if (currentBall == ball_2) {
+          ball_reflection.setAttribute("cx", String(Math.round(xmirror)));
+          ball_reflection.setAttribute("cy", String(Math.round(ymirror)));
+        }
+
+        updatePath();
+      }
+    };
+
+    const drag = (e) => {
+      if (!dragging) return;
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      if (stage != null) {
+        const p = toSVGPoint(stage, x, y);
+        console.log("p ", p.y);
+        if (p.x < 20 || p.x > 480 || p.y < 20 || p.y > 480) {
+          stopDragging();
+          return;
+        }
+
+        const xpos = p.x;
+        const ypos = p.y;
+        const xmirror = 500 - xpos;
+        const ymirror = 500 - ypos;
+        currentBall.setAttribute("cx", String(Math.round(p.x)));
+        currentBall.setAttribute("cy", String(Math.round(p.y)));
+        if (currentBall == ball_2) {
+          ball_reflection.setAttribute("cx", String(Math.round(xmirror)));
+          ball_reflection.setAttribute("cy", String(Math.round(ymirror)));
+        }
+
+        updatePath();
+      }
+    };
+
+    const updatePath = () => {
+      const b1x = ball_1.getAttribute("cx");
+      const b1y = ball_1.getAttribute("cy");
+      const b2x = ball_2.getAttribute("cx");
+      const b2y = ball_2.getAttribute("cy");
+      const b3x = ball_3.getAttribute("cx");
+      const b3y = ball_3.getAttribute("cy");
+      const reflectX = 500 - Number(b2x);
+      const reflectY = 500 - Number(b2y);
+      const str = `M 0,250 C ${b1x},${b1y} ${b2x},${b2y} 250,250 S${b3x},${b3y}  500,250`;
+      path.setAttribute("d", str);
+      connector.setAttribute("d", `M${b2x}, ${b2y} L${reflectX}, ${reflectY}`);
+      if (pathText != null)
+        pathText.textContent = `C ${b1x}, ${b1y} ${b2x}, ${b2y} 250, 250 S${b3x}, ${b3y}`;
+    };
+
+    const toSVGPoint = (svg, x, y) => {
+      let p = new DOMPoint(x, y);
+
+      return p.matrixTransform(svg.getScreenCTM()?.inverse());
+    };
+
+    const stopDragging = () => {
+      dragging = false;
+      currentBall = null;
+      console.log("stop dragging");
+      stage.removeEventListener("mousemove", drag);
+      stage.removeEventListener("mouseup", stopDragging);
+      stage.removeEventListener("touchmove", touchdrag);
+      stage.removeEventListener("touchend", stopDragging);
+    };
+
+    init();
+  </script>
+</html>

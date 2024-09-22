@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg id="stage" width="500" height="500" viewBox="0 0 500 500">
+      <path
+        id="path"
+        d="M 0,250 Q 125,100 250,250 T 500,250"
+        stroke="black"
+        strokeWidth="2"
+        fill="none"
+      />
+      <text x="125" y="75" textAnchor="middle">Drag Me!</text>
+      <text x="250" y="450" textAnchor="middle">
+        "M 0,250
+        <tspan stroke="red" id="pathText">Q 250, 120 250, 250 T</tspan>
+        500,250"
+      </text>
+      <path
+        id="connector"
+        d="M125,100 L375,400"
+        stroke="black"
+        stroke-dasharray="5"
+      />
+      <circle cx="250" cy="250" r="5" fill="black" />
+      <circle id="ball" cx="125" cy="100" r="20" fill="red" />
+      <circle
+        id="ballReflection"
+        cx="375"
+        cy="400"
+        r="15"
+        fill="white"
+        stroke="black"
+        stroke-width="3"
+        stroke-dasharray="5"
+        path-length="100"
+      />
+    </svg>
+  </body>
+  <script>
+    const path = document.getElementById("path");
+    const ball = document.getElementById("ball");
+    const ballReflection = document.getElementById("ballReflection");
+    const connector = document.getElementById("connector");
+    const stage = document.getElementById("stage");
+    const pathText = document.getElementById("pathText");
+    let dragging = false;
+
+    const init = () => {
+      console.log("init");
+      ball.addEventListener("mousedown", startDragging);
+    };
+
+    const startDragging = () => {
+      dragging = true;
+      stage.addEventListener("mousemove", drag);
+      stage.addEventListener("touchmove", touchdrag);
+      stage.addEventListener("mouseup", stopDragging);
+      stage.addEventListener("touchstop", stopDragging);
+    };
+
+    const touchdrag = (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const x = e.touches[0].clientX;
+      const y = e.touches[0].clientY;
+
+      if (stage != null) {
+        const p = toSVGPoint(stage, x, y);
+        console.log("p ", p.y);
+        if (p.x < 20 || p.x > 480 || p.y < 20 || p.y > 480) {
+          stopDragging();
+          return;
+        }
+
+        const xpos = p.x;
+        const ypos = p.y;
+        const xposMirror = 500 - xpos;
+        const yposMirror = 500 - ypos;
+        ball.setAttribute("cx", String(xpos));
+        ball.setAttribute("cy", String(ypos));
+        ballReflection.setAttribute("cx", String(xposMirror));
+        ballReflection.setAttribute("cy", String(yposMirror));
+        connector.setAttribute(
+          "d",
+          `M${xpos},${ypos} L${xposMirror},${yposMirror}`
+        );
+        updatePath(xpos, ypos);
+      }
+    };
+
+    const drag = (e) => {
+      if (!dragging) return;
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      if (stage != null) {
+        const p = toSVGPoint(stage, x, y);
+        console.log("p ", p.y);
+        if (p.x < 20 || p.x > 480 || p.y < 20 || p.y > 480) {
+          stopDragging();
+          return;
+        }
+
+        const xpos = p.x;
+        const ypos = p.y;
+        const xposMirror = 500 - xpos;
+        const yposMirror = 500 - ypos;
+        ball.setAttribute("cx", String(xpos));
+        ball.setAttribute("cy", String(ypos));
+        ballReflection.setAttribute("cx", String(xposMirror));
+        ballReflection.setAttribute("cy", String(yposMirror));
+        connector.setAttribute(
+          "d",
+          `M${xpos},${ypos} L${xposMirror},${yposMirror}`
+        );
+        updatePath(xpos, ypos);
+      }
+    };
+
+    const updatePath = (x, y) => {
+      const str = `M 0,250 Q ${Math.round(x)},${Math.round(
+        y
+      )} 250,250 T 500,250`;
+      path.setAttribute("d", str);
+      if (pathText != null)
+        pathText.textContent = `Q ${Math.round(x)}, ${Math.round(y)} 250,250 T`;
+    };
+
+    const toSVGPoint = (svg, x, y) => {
+      let p = new DOMPoint(x, y);
+
+      return p.matrixTransform(svg.getScreenCTM()?.inverse());
+    };
+
+    const stopDragging = () => {
+      dragging = false;
+      console.log("stop dragging");
+      stage.removeEventListener("mousemove", drag);
+      stage.removeEventListener("touchmove", touchdrag);
+      stage.removeEventListener("mouseup", stopDragging);
+      stage.removeEventListener("touchmove", touchdrag);
+      stage.removeEventListener("touchstop", stopDragging);
+    };
+
+    init();
+  </script>
+</html>

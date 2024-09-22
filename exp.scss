@@ -1,0 +1,15 @@
+@mixin letter {
+  stroke: white;
+  stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  stroke-linecap: none;
+  transition-property: stroke-dashoffset;
+  transition-duration: 3s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0;
+}
+
+.letter {
+  @include letter();
+}
