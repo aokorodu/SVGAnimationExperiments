@@ -81,15 +81,15 @@
       id: "righttwall",
     });
 
-    const makeWindmills = (xpos, ypos, width) => {
-      const h = Bodies.rectangle(0, 0, wmbladeWidth, 20, {
+    const makeWindmills = (xpos, ypos, bladeWidth) => {
+      const h = Bodies.rectangle(0, 0, bladeWidth, 20, {
         id: `horiz_blade`,
         friction: 0,
         restitution: 1,
         isStatic: true,
       });
 
-      const v = Bodies.rectangle(0, 0, 20, wmbladeWidth, {
+      const v = Bodies.rectangle(0, 0, 20, bladeWidth, {
         id: `vert_blade`,
         friction: 0,
         restitution: 1,
@@ -98,9 +98,9 @@
 
       const comp = Matter.Composite.create();
       Matter.Composite.add(comp, [h, v]);
-      Matter.Composite.translate(comp, { x: 500, y: 500 });
+      Matter.Composite.translate(comp, { x: xpos, y: ypos });
       windmills.push(comp);
-      const wm = new Windmill(500, 500, wmbladeWidth, comp); //new Windmill(500, 500, wmbladeWidth,);
+      const wm = new Windmill(xpos, ypos, bladeWidth, comp); //new Windmill(500, 500, bladeWidth,);
       wm.init(holder);
       windmillGraphics.push(wm);
     };
@@ -116,9 +116,11 @@
         particle.update();
       });
 
-      windmills.forEach((windmill) => {
+      windmills.forEach((windmill, index) => {
+        const rot = index % 2 == 0 ? 0.005 : -0.005;
         const angle = windmill.bodies[0].angle;
-        Matter.Composite.rotate(windmill, 0.005, { x: 500, y: 500 });
+        const pos = windmill.bodies[0].position;
+        Matter.Composite.rotate(windmill, rot, pos);
       });
 
       windmillGraphics.forEach((windmill) => {
@@ -134,8 +136,8 @@
     };
 
     makeParticles();
-    makeWindmills();
-
+    makeWindmills(500, 200, 200);
+    makeWindmills(500, 700, 550);
     initWorld();
 
     update();
