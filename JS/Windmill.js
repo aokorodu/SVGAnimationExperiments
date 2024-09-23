@@ -1,9 +1,9 @@
 class Windmill {
-  constructor(x, y, w, matterbody = null) {
+  constructor(x, y, w, thickness, matterbody = null) {
     this.x = x;
     this.y = y;
     this.w = w;
-    this.bladeHeight = 20;
+    this.bladeHeight = thickness;
     this.graphicHolder = null;
     this.matterbody = matterbody;
     this.namespace = "http://www.w3.org/2000/svg";
@@ -22,29 +22,31 @@ class Windmill {
   }
 
   makeBlades(holder) {
-    const horizontalBlade = document.createElementNS(this.namespace, "rect");
-    horizontalBlade.setAttribute("x", -this.w / 2);
-    horizontalBlade.setAttribute("y", -this.bladeHeight / 2);
-    horizontalBlade.setAttribute("width", this.w);
-    horizontalBlade.setAttribute("height", this.bladeHeight);
-    horizontalBlade.setAttribute("fill", "#FFFFFF");
-
-    const verticalBlade = document.createElementNS(this.namespace, "rect");
-    verticalBlade.setAttribute("x", -this.bladeHeight / 2);
-    verticalBlade.setAttribute("y", -this.w / 2);
-    verticalBlade.setAttribute("width", this.bladeHeight);
-    verticalBlade.setAttribute("height", this.w);
-    verticalBlade.setAttribute("fill", "white");
+    const horizontalBlade = this.getBlade(this.w, this.bladeHeight);
+    const verticalBlade = this.getBlade(this.bladeHeight, this.w);
 
     holder.appendChild(horizontalBlade);
     holder.appendChild(verticalBlade);
   }
+
+  getBlade(w, h) {
+    const blade = document.createElementNS(this.namespace, "rect");
+    blade.setAttribute("x", -w / 2);
+    blade.setAttribute("y", -h / 2);
+    blade.setAttribute("ry", 5);
+    blade.setAttribute("rx", 5);
+    blade.setAttribute("width", w);
+    blade.setAttribute("height", h);
+    blade.setAttribute("fill", "#FFFFFF");
+
+    return blade;
+  }
+
   update() {
     const angle = (this.matterbody.bodies[0].angle * 180) / Math.PI;
     this.graphicHolder.setAttribute(
       "transform",
       `translate(${this.x} ${this.y}) rotate(${angle})`
     );
-    // Matter.Composite.rotate(this.matterbody, 0.01, { x: 500, y: 500 });
   }
 }

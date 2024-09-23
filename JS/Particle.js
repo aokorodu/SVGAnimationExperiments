@@ -9,15 +9,16 @@ class Particle {
     this.type = type;
     this.namespace = "http://www.w3.org/2000/svg";
     this.isStatic = isStatic;
+    this.color = `hsl(${Math.round(Math.random() * 360)}, 100%, 50%)`;
   }
 
   init(container, color = "#FF0000") {
     this.graphicHolder = this.getGraphicHolder();
     this.graphic =
       this.type == "circle" ? this.makeACircle() : this.makeARect();
-    this.graphic.setAttribute("fill", color);
+    this.graphic.setAttribute("fill", this.color);
     this.graphic.setAttribute("fill-opacity", 0.4);
-    this.graphic.setAttribute("stroke", color);
+    this.graphic.setAttribute("stroke", this.color);
     this.graphic.setAttribute("stroke-width", "3");
     this.graphic.setAttribute("stroke-opacity", 1);
     this.graphicHolder.appendChild(this.graphic);

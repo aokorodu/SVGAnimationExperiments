@@ -10,8 +10,8 @@
     <title>Document</title>
   </head>
   <body>
-    <svg width="800" height="800" viewBox="0 0 1000 1000">
-      <rect x="0" y="0" width="1000" height="1000" fill="#191919" />
+    <svg width="500" height="500" viewBox="0 0 1000 1000">
+      <rect x="0" y="0" width="1000" height="1000" fill="#212121" />
       <g id="holder"></g>
     </svg>
   </body>
@@ -28,7 +28,7 @@
     const windmillGraphics = [];
     const ballGraphics = [];
     const num = 200;
-    const maxRadius = 3;
+    const maxRadius = 4;
     const wmbladeWidth = 600;
 
     const makeParticles = () => {
@@ -81,15 +81,15 @@
       id: "righttwall",
     });
 
-    const makeWindmills = (xpos, ypos, bladeWidth) => {
-      const h = Bodies.rectangle(0, 0, bladeWidth, 20, {
+    const makeWindmills = (xpos, ypos, bladeWidth, bladeThickness) => {
+      const h = Bodies.rectangle(0, 0, bladeWidth, bladeThickness, {
         id: `horiz_blade`,
         friction: 0,
         restitution: 1,
         isStatic: true,
       });
 
-      const v = Bodies.rectangle(0, 0, 20, bladeWidth, {
+      const v = Bodies.rectangle(0, 0, bladeThickness, bladeWidth, {
         id: `vert_blade`,
         friction: 0,
         restitution: 1,
@@ -100,7 +100,7 @@
       Matter.Composite.add(comp, [h, v]);
       Matter.Composite.translate(comp, { x: xpos, y: ypos });
       windmills.push(comp);
-      const wm = new Windmill(xpos, ypos, bladeWidth, comp); //new Windmill(500, 500, bladeWidth,);
+      const wm = new Windmill(xpos, ypos, bladeWidth, bladeThickness, comp); //new Windmill(500, 500, bladeWidth,);
       wm.init(holder);
       windmillGraphics.push(wm);
     };
@@ -117,7 +117,7 @@
       });
 
       windmills.forEach((windmill, index) => {
-        const rot = index % 2 == 0 ? 0.005 : -0.005;
+        const rot = index % 2 == 0 ? 0.0075 : -0.0075;
         const angle = windmill.bodies[0].angle;
         const pos = windmill.bodies[0].position;
         Matter.Composite.rotate(windmill, rot, pos);
@@ -136,10 +136,10 @@
     };
 
     makeParticles();
-    makeWindmills(250, 300, 200);
-    makeWindmills(500, 300, 200);
-    makeWindmills(750, 300, 200);
-    makeWindmills(500, 700, 550);
+    makeWindmills(250, 400, 200, 10);
+    makeWindmills(500, 300, 300, 10);
+    makeWindmills(750, 400, 200, 10);
+    makeWindmills(500, 700, 500, 5);
     initWorld();
 
     update();
