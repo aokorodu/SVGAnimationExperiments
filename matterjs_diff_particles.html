@@ -104,6 +104,7 @@
       wm.init(holder);
       windmillGraphics.push(wm);
     };
+
     const update = () => {
       balls.forEach((ball) => {
         if (ball.position.y > 1100) {
@@ -117,7 +118,7 @@
       });
 
       windmills.forEach((windmill, index) => {
-        const rot = index % 2 == 0 ? 0.0075 : -0.0075;
+        const rot = index % 2 == 0 ? 0.0045 : -0.0075;
         const angle = windmill.bodies[0].angle;
         const pos = windmill.bodies[0].position;
         Matter.Composite.rotate(windmill, rot, pos);
@@ -136,10 +137,11 @@
     };
 
     makeParticles();
-    makeWindmills(250, 400, 200, 10);
-    makeWindmills(500, 300, 300, 10);
-    makeWindmills(750, 400, 200, 10);
-    makeWindmills(500, 700, 500, 5);
+    // makeWindmills(250, 400, 200, 10);
+    // makeWindmills(500, 300, 300, 10);
+    // makeWindmills(750, 400, 200, 10);
+    makeWindmills(300, 500, 400, 5);
+    makeWindmills(700, 500, 400, 5);
     initWorld();
 
     update();
