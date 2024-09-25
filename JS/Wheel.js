@@ -1,9 +1,8 @@
-class Windmill {
-  constructor(x, y, w, thickness, matterbody = null) {
+class Wheel {
+  constructor(x, y, r, matterbody = null) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.bladeHeight = thickness;
+    this.r = r - 10;
     this.graphicHolder = null;
     this.matterbody = matterbody;
     this.namespace = "http://www.w3.org/2000/svg";
@@ -17,36 +16,25 @@ class Windmill {
       `translate(${this.x} ${this.y})`
     );
 
-    this.makeBlades(this.graphicHolder);
+    this.makeWheelGraphic(this.graphicHolder);
     container.appendChild(this.graphicHolder);
   }
 
-  makeBlades(holder) {
-    const horizontalBlade = this.getBlade(this.w, this.bladeHeight);
-    const verticalBlade = this.getBlade(this.bladeHeight, this.w);
+  makeWheelGraphic(holder) {
+    const wheel = document.createElementNS(this.namespace, "circle");
+    wheel.setAttribute("cx", 0);
+    wheel.setAttribute("cy", 0);
+    wheel.setAttribute("r", this.r);
+    wheel.setAttribute("fill", "none");
+    wheel.setAttribute("stroke", "white");
+    wheel.setAttribute("stroke-width", "white");
+    wheel.setAttribute("stroke-dasharray", "10 10");
 
-    holder.appendChild(horizontalBlade);
-    holder.appendChild(verticalBlade);
-  }
-
-  getBlade(w, h) {
-    const blade = document.createElementNS(this.namespace, "rect");
-    blade.setAttribute("x", -w / 2);
-    blade.setAttribute("y", -h / 2);
-    blade.setAttribute("ry", 5);
-    blade.setAttribute("rx", 5);
-    blade.setAttribute("width", w);
-    blade.setAttribute("height", h);
-    blade.setAttribute("fill", "#FFFFFF");
-
-    return blade;
+    holder.appendChild(wheel);
   }
 
   update() {
     const angle = (this.matterbody.angle * 180) / Math.PI;
-    const pos = this.matterbody.position;
-    this.x = pos.x;
-    this.y = pos.y;
     this.graphicHolder.setAttribute(
       "transform",
       `translate(${this.x} ${this.y}) rotate(${angle})`

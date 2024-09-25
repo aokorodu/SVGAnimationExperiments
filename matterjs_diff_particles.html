@@ -7,6 +7,7 @@
     <script src="JS/matter.js"></script>
     <script src="JS/Particle.js"></script>
     <script src="JS/Windmill.js"></script>
+    <script src="JS/Wheel.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -31,12 +32,14 @@
     const engine = Engine.create();
     const holder = document.querySelector("#holder");
     const balls = [];
-    const pegs = [];
+    const ballGraphics = [];
     const windmills = [];
     const windmillGraphics = [];
-    const ballGraphics = [];
-    const num = 4;
-    const maxRadius = 10;
+    const wheels = [];
+    const wheelGraphics = [];
+
+    const num = 200;
+    const maxRadius = 7;
     const wmbladeWidth = 600;
     let spinSpeed = 0;
     const spinSlider = document.querySelector("#spinSlider");
@@ -100,7 +103,12 @@
       id: "righttwall",
     });
 
-    const makeWindmills = (xpos, ypos, bladeWidth, bladeThickness) => {
+    const makeWindmills = () => {
+      buildWindmill(300, 300, 400, 15);
+      buildWindmill(700, 300, 400, 15);
+    };
+
+    const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
       const h = Bodies.rectangle(0, 0, bladeWidth, bladeThickness, {
         id: `horiz_blade`,
         friction: 1,
@@ -133,6 +141,19 @@
       windmillGraphics.push(wm);
     };
 
+    const makeWheels = () => {
+      buildWheel(500, 700, 150);
+    };
+
+    const buildWheel = (xpos, ypos, r) => {
+      const b = getCircBody(xpos, ypos, r, 123, true);
+      wheels.push(b);
+
+      const w = new Wheel(xpos, ypos, r, b);
+      w.init(holder);
+      wheelGraphics.push(w);
+    };
+
     const update = () => {
       balls.forEach((ball) => {
         if (ball.position.y > 1100) {
@@ -158,19 +179,30 @@
       windmillGraphics.forEach((windmill) => {
         windmill.update();
       });
+
+      wheels.forEach((wheel) => {
+        const pos = wheel.position;
+        Matter.Body.rotate(wheel, 0.01, pos, true);
+      });
+
+      wheelGraphics.forEach((wheelGraphic) => {
+        wheelGraphic.update();
+      });
       window.requestAnimationFrame(update);
     };
 
     const initWorld = () => {
       let runner = Runner.create();
-      World.add(engine.world, [...balls, ...windmills, leftwall, rightwall]);
+      World.add(engine.world, [...balls, ...windmills, ...wheels]);
       Runner.run(runner, engine);
     };
 
     initSlider();
     makeParticles();
-    makeWindmills(300, 500, 200, 15);
-    makeWindmills(700, 500, 200, 15);
+    makeWindmills();
+
+    makeWheels();
+
     initWorld();
 
     update();
