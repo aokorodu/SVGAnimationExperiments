@@ -35,7 +35,7 @@
     const windmills = [];
     const windmillGraphics = [];
     const ballGraphics = [];
-    const num = 200;
+    const num = 4;
     const maxRadius = 10;
     const wmbladeWidth = 600;
     let spinSpeed = 0;
@@ -72,6 +72,7 @@
         friction: 1,
         restitution: 0.6,
         isStatic: static,
+        frictionStatic: 1,
       });
 
       return b;
@@ -83,6 +84,7 @@
         friction: 1,
         restitution: 0.6,
         isStatic: static,
+        frictionStatic: 1,
       });
 
       return b;
@@ -104,6 +106,7 @@
         friction: 1,
         restitution: 1,
         isStatic: true,
+        // frictionStatic: 10,
       });
 
       const v = Bodies.rectangle(0, 0, bladeThickness, bladeWidth, {
@@ -111,6 +114,7 @@
         friction: 1,
         restitution: 1,
         isStatic: true,
+        // frictionStatic: 10,
       });
 
       const b = Matter.Body.create({
@@ -118,6 +122,7 @@
         friction: 0,
         restitution: 1,
         isStatic: true,
+        // frictionStatic: 10,
       });
       Matter.Body.setParts(b, [h, v]);
       Matter.Body.setPosition(b, { x: xpos, y: ypos });
@@ -141,11 +146,13 @@
       });
 
       windmills.forEach((windmill, index) => {
+        //const speed = 0.1;
         const rot = index % 2 == 0 ? spinSpeed : -spinSpeed;
         const angle = windmill.angle;
         const pos = windmill.position;
         Matter.Body.rotate(windmill, rot, pos, true);
-        //Matter.Body.setPosition(windmill, { x: pos.x + 0.1, y: pos.y });
+        //Matter.Body.setPosition(windmill, { x: pos.x + speed, y: pos.y });
+        //Matter.Body.setVelocity(windmill, { x: speed, y: 0 });
       });
 
       windmillGraphics.forEach((windmill) => {
@@ -162,8 +169,8 @@
 
     initSlider();
     makeParticles();
-    makeWindmills(300, 500, 400, 5);
-    makeWindmills(700, 500, 400, 5);
+    makeWindmills(300, 500, 200, 15);
+    makeWindmills(700, 500, 200, 15);
     initWorld();
 
     update();
