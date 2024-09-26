@@ -43,7 +43,10 @@ class Windmill {
   }
 
   update() {
-    const angle = (this.matterbody.bodies[0].angle * 180) / Math.PI;
+    const angle = (this.matterbody.angle * 180) / Math.PI;
+    const pos = this.matterbody.position;
+    this.x = pos.x;
+    this.y = pos.y;
     this.graphicHolder.setAttribute(
       "transform",
       `translate(${this.x} ${this.y}) rotate(${angle})`
