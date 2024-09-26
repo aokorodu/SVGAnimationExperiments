@@ -217,13 +217,13 @@
         wheelGraphic.update();
       });
 
-      const pos = conveyor.position;
-      const x = pos.x + 1;
-      Matter.Body.setPosition(conveyor, { x: pos.x + 1, y: pos.y });
-      Matter.Body.setVelocity(conveyor, { x: 1, y: 0 });
-      if (x > 520) {
-        Matter.Body.setPosition(conveyor, { x: 500, y: pos.y });
-      }
+      // const pos = conveyor.position;
+      // const x = pos.x + 1;
+      // Matter.Body.setPosition(conveyor, { x: pos.x + 1, y: pos.y });
+      // Matter.Body.setVelocity(conveyor, { x: 1, y: 0 });
+      // if (x > 520) {
+      //   Matter.Body.setPosition(conveyor, { x: 500, y: pos.y });
+      // }
 
       conveyorGraphic.update();
       window.requestAnimationFrame(update);
@@ -240,7 +240,7 @@
     makeWindmills();
 
     //makeWheels();
-    makeConveyor(500, 800, 600);
+    makeConveyor(500, 800, 800);
     initWorld();
 
     update();

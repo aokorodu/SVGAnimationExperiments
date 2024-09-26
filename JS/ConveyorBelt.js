@@ -69,6 +69,14 @@ class ConveyorBelt {
   }
 
   update() {
+    const pos = this.matterbody.position;
+    const x = pos.x + 1;
+    Matter.Body.setPosition(this.matterbody, { x: pos.x + 1, y: pos.y });
+    Matter.Body.setVelocity(this.matterbody, { x: 1, y: 0 });
+    if (x > this.x + 20) {
+      Matter.Body.setPosition(this.matterbody, { x: this.x, y: pos.y });
+    }
+
     this.rotation += 1;
     this.wheel_1.setAttribute(
       "transform",
