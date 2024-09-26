@@ -179,11 +179,10 @@ const initWorld = () => {
 
 initSlider();
 makeParticles();
-makeWindmills();
-
+//makeWindmills();
 //makeWheels();
-makeConveyor(325, 600, 600);
-makeConveyor(675, 800, 600);
+makeConveyor(325, 200, 600);
+makeConveyor(675, 500, 600);
 initWorld();
 
 update();
