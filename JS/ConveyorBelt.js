@@ -1,10 +1,11 @@
 class ConveyorBelt {
-  constructor(x, y, w, h, matterbody = null) {
+  constructor(x, y, w, h, matterbody) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.rotation = 0;
+    this.speed = 1;
     this.wheelRadius = this.h / 2;
     this.graphicHolder = null;
     this.wheel_1 = null;
@@ -30,12 +31,12 @@ class ConveyorBelt {
     this.wheel_1 = document.createElementNS(this.namespace, "g");
     this.wheel_1.setAttribute(
       "transform",
-      `translate(${-this.w / 2 + 50} ${this.wheelRadius})`
+      `translate(${-this.w / 2} ${this.wheelRadius})`
     );
     this.wheel_2 = document.createElementNS(this.namespace, "g");
     this.wheel_1.setAttribute(
       "transform",
-      `translate(${this.w / 2 - 20} ${this.wheelRadius})`
+      `translate(${this.w / 2} ${this.wheelRadius})`
     );
     const gear_1 = document.createElementNS(this.namespace, "use");
     gear_1.setAttribute("href", "#gear");
@@ -48,11 +49,11 @@ class ConveyorBelt {
     gear_2.setAttribute("y", 0);
 
     this.belt = document.createElementNS(this.namespace, "rect");
-    this.belt.setAttribute("x", `${-this.w / 2}`);
+    this.belt.setAttribute("x", `${-this.w / 2 - 50}`);
     this.belt.setAttribute("y", `${-this.h / 2}`);
     this.belt.setAttribute("rx", `${50}`);
     this.belt.setAttribute("ry", `${50}`);
-    this.belt.setAttribute("width", `${this.w + 30}`);
+    this.belt.setAttribute("width", `${this.w + 100}`);
     this.belt.setAttribute("height", `${this.h * 2}`);
     this.belt.setAttribute("stroke", `white`);
     this.belt.setAttribute("stroke-opacity", `0.5`);
@@ -70,26 +71,22 @@ class ConveyorBelt {
 
   update() {
     const pos = this.matterbody.position;
-    const x = pos.x + 1;
-    Matter.Body.setPosition(this.matterbody, { x: pos.x + 1, y: pos.y });
-    Matter.Body.setVelocity(this.matterbody, { x: 1, y: 0 });
-    if (x > this.x + 20) {
+    const x = pos.x + this.speed;
+    Matter.Body.setPosition(this.matterbody, { x: x, y: pos.y });
+    Matter.Body.setVelocity(this.matterbody, { x: this.speed, y: 0 });
+    if (x > this.x + 20 || x < this.x - 20) {
       Matter.Body.setPosition(this.matterbody, { x: this.x, y: pos.y });
     }
 
     this.rotation += 1;
     this.wheel_1.setAttribute(
       "transform",
-      `translate(${-this.w / 2 + 50} ${this.wheelRadius}) rotate(${
-        this.rotation
-      })`
+      `translate(${-this.w / 2} ${this.wheelRadius}) rotate(${this.rotation})`
     );
 
     this.wheel_2.setAttribute(
       "transform",
-      `translate(${this.w / 2 - 20} ${this.wheelRadius}) rotate(${
-        this.rotation
-      })`
+      `translate(${this.w / 2} ${this.wheelRadius}) rotate(${this.rotation})`
     );
 
     this.belt.setAttribute("stroke-dashoffset", `${-this.rotation}`);
