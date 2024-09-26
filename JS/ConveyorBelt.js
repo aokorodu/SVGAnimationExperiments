@@ -1,4 +1,4 @@
-class Wheel {
+class ConveyorBelt {
   constructor(x, y, r, matterbody = null) {
     this.x = x;
     this.y = y;
