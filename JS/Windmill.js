@@ -1,9 +1,10 @@
 class Windmill {
-  constructor(x, y, w, thickness, matterbody = null) {
+  constructor(x, y, w, thickness, speed, matterbody = null) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.bladeHeight = thickness;
+    this.speed = speed;
     this.graphicHolder = null;
     this.matterbody = matterbody;
     this.namespace = "http://www.w3.org/2000/svg";
@@ -42,7 +43,14 @@ class Windmill {
     return blade;
   }
 
+  changeSpeed(newSpeed) {
+    this.speed = newSpeed;
+  }
+
   update() {
+    const bodyPos = this.matterbody.position;
+    Matter.Body.rotate(this.matterbody, this.speed, bodyPos, true);
+
     const angle = (this.matterbody.angle * 180) / Math.PI;
     const pos = this.matterbody.position;
     this.x = pos.x;
