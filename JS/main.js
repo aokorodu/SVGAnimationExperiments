@@ -10,9 +10,8 @@ const windmills = [];
 const windmillGraphics = [];
 const wheels = [];
 const wheelGraphics = [];
-
-let conveyor = null;
-let conveyorGraphic = null;
+const conveyors = [];
+const conveyorGraphics = [];
 
 const num = 200;
 const maxRadius = 3;
@@ -83,8 +82,8 @@ const rightwall = Bodies.rectangle(1050, 500, 100, 1000, {
 });
 
 const makeWindmills = () => {
-  buildWindmill(300, 300, 400, 15);
-  buildWindmill(700, 300, 400, 15);
+  buildWindmill(275, 300, 425, 15);
+  buildWindmill(725, 300, 425, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
@@ -121,7 +120,9 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
 };
 
 const makeWheels = () => {
-  buildWheel(500, 600, 100);
+  //buildWheel(250, 600, 75);
+  buildWheel(500, 550, 75);
+  //buildWheel(750, 600, 75);
 };
 
 const buildWheel = (xpos, ypos, r) => {
@@ -134,26 +135,22 @@ const buildWheel = (xpos, ypos, r) => {
 };
 
 const makeConveyor = (xpos, ypos, w) => {
-  conveyor = Bodies.rectangle(xpos, ypos, w, 50, {
-    id: `conveyor`,
+  const conveyor = Bodies.rectangle(xpos, ypos, w, 50, {
+    id: `conveyor_${xpos}${ypos}`,
     friction: 1,
     restitution: 0.6,
     isStatic: true,
     frictionStatic: 1,
   });
 
-  conveyorGraphic = new ConveyorBelt(xpos, ypos, w, 50, conveyor);
-  conveyorGraphic.init(holder);
+  conveyors.push(conveyor);
+
+  const convGr = new ConveyorBelt(xpos, ypos, w, 50, conveyor);
+  convGr.init(holder);
+  conveyorGraphics.push(convGr);
 };
 
 const update = () => {
-  balls.forEach((ball) => {
-    if (ball.position.y > 1100) {
-      Matter.Body.setPosition(ball, { x: 400 + Math.random() * 200, y: 0 });
-      Matter.Body.setSpeed(ball, 0);
-    }
-  });
-
   ballGraphics.forEach((particle) => {
     particle.update();
   });
@@ -166,22 +163,26 @@ const update = () => {
     wheelGraphic.update();
   });
 
-  conveyorGraphic.update();
+  conveyorGraphics.forEach((cGraphic) => {
+    cGraphic.update();
+  });
+
+  //conveyorGraphic.update();
   window.requestAnimationFrame(update);
 };
 
 const initWorld = () => {
   let runner = Runner.create();
-  World.add(engine.world, [...balls, ...windmills, ...wheels, conveyor]);
+  World.add(engine.world, [...balls, ...windmills, ...wheels, ...conveyors]);
   Runner.run(runner, engine);
 };
 
 initSlider();
 makeParticles();
-makeWindmills();
-
-makeWheels();
-makeConveyor(500, 800, 800);
+//makeWindmills();
+//makeWheels();
+makeConveyor(325, 200, 600);
+makeConveyor(675, 500, 600);
 initWorld();
 
 update();
