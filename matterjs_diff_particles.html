@@ -208,11 +208,6 @@
         windmill.update();
       });
 
-      wheels.forEach((wheel) => {
-        const pos = wheel.position;
-        Matter.Body.rotate(wheel, 0.01, pos, true);
-      });
-
       wheelGraphics.forEach((wheelGraphic) => {
         wheelGraphic.update();
       });
