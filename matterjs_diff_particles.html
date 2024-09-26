@@ -8,6 +8,7 @@
     <script src="JS/Particle.js"></script>
     <script src="JS/Windmill.js"></script>
     <script src="JS/Wheel.js"></script>
+    <script src="JS/ConveyorBelt.js"></script>
     <title>Document</title>
   </head>
   <body>
@@ -50,9 +51,10 @@
     const wheelGraphics = [];
 
     let conveyor = null;
+    let conveyorGraphic = null;
 
     const num = 200;
-    const maxRadius = 7;
+    const maxRadius = 3;
     const wmbladeWidth = 600;
     let spinSpeed = 0;
     const spinSlider = document.querySelector("#spinSlider");
@@ -175,11 +177,9 @@
         isStatic: true,
         frictionStatic: 1,
       });
-      // wheels.push(b);
 
-      // const w = new Wheel(xpos, ypos, r, b);
-      // w.init(holder);
-      // wheelGraphics.push(w);
+      conveyorGraphic = new ConveyorBelt(xpos, ypos, w, 50, conveyor);
+      conveyorGraphic.init(holder);
     };
 
     const update = () => {
@@ -224,6 +224,8 @@
       if (x > 520) {
         Matter.Body.setPosition(conveyor, { x: 500, y: pos.y });
       }
+
+      conveyorGraphic.update();
       window.requestAnimationFrame(update);
     };
 
@@ -237,8 +239,8 @@
     makeParticles();
     makeWindmills();
 
-    makeWheels();
-    makeConveyor(500, 900, 900);
+    //makeWheels();
+    makeConveyor(500, 800, 600);
     initWorld();
 
     update();
