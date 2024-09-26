@@ -147,13 +147,6 @@ const makeConveyor = (xpos, ypos, w) => {
 };
 
 const update = () => {
-  balls.forEach((ball) => {
-    if (ball.position.y > 1100) {
-      Matter.Body.setPosition(ball, { x: 400 + Math.random() * 200, y: 0 });
-      Matter.Body.setSpeed(ball, 0);
-    }
-  });
-
   ballGraphics.forEach((particle) => {
     particle.update();
   });

@@ -39,7 +39,7 @@ class Wheel {
 
   update() {
     const pos = this.matterbody.position;
-    Matter.Body.rotate(this.matterbody, 0.01, pos, true);
+    Matter.Body.rotate(this.matterbody, -0.01, pos, true);
 
     const angle = (this.matterbody.angle * 180) / Math.PI;
     this.graphicHolder.setAttribute(

@@ -59,5 +59,13 @@ class Particle {
       "transform",
       `translate(${pos.x} ${pos.y}) rotate(${angle})`
     );
+
+    if (this.matterball.position.y > 1100) {
+      Matter.Body.setPosition(this.matterball, {
+        x: 400 + Math.random() * 200,
+        y: 0,
+      });
+      Matter.Body.setSpeed(this.matterball, 0);
+    }
   }
 }
