@@ -1,11 +1,11 @@
 class ConveyorBelt {
-  constructor(x, y, w, h, matterbody) {
+  constructor(x, y, w, h, matterbody, speed = -1) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.rotation = 0;
-    this.speed = 1;
+    this.speed = speed;
     this.wheelRadius = this.h / 2;
     this.graphicHolder = null;
     this.wheel_1 = null;
@@ -78,7 +78,7 @@ class ConveyorBelt {
       Matter.Body.setPosition(this.matterbody, { x: this.x, y: pos.y });
     }
 
-    this.rotation += 1;
+    this.rotation += this.speed;
     this.wheel_1.setAttribute(
       "transform",
       `translate(${-this.w / 2} ${this.wheelRadius}) rotate(${this.rotation})`

@@ -13,8 +13,8 @@ const wheelGraphics = [];
 const conveyors = [];
 const conveyorGraphics = [];
 
-const num = 200;
-const maxRadius = 3;
+const num = 20;
+const maxRadius = 8;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
 const spinSlider = document.querySelector("#spinSlider");
@@ -31,7 +31,7 @@ const initSlider = () => {
 
 const makeParticles = () => {
   for (let i = 0; i < num; i++) {
-    const radius = 5 + Math.round(Math.random() * maxRadius);
+    const radius = 10 + Math.round(Math.random() * maxRadius);
     const xpos = 500 + (Math.random() * 100 - 50);
     const ypos = i * -radius;
     const type = Math.random() > 0.5 ? "circle" : "rect";
@@ -134,7 +134,7 @@ const buildWheel = (xpos, ypos, r) => {
   wheelGraphics.push(w);
 };
 
-const makeConveyor = (xpos, ypos, w) => {
+const makeConveyor = (xpos, ypos, w, speed) => {
   const conveyor = Bodies.rectangle(xpos, ypos, w, 50, {
     id: `conveyor_${xpos}${ypos}`,
     friction: 1,
@@ -143,9 +143,18 @@ const makeConveyor = (xpos, ypos, w) => {
     frictionStatic: 1,
   });
 
-  conveyors.push(conveyor);
+  const stable = Bodies.rectangle(xpos, ypos + 1, w + 25, 50, {
+    id: `stable_${xpos}${ypos}`,
+    friction: 0,
+    restitution: 0,
+    isStatic: true,
+    frictionStatic: 0,
+  });
 
-  const convGr = new ConveyorBelt(xpos, ypos, w, 50, conveyor);
+  conveyors.push(conveyor);
+  conveyors.push(stable);
+
+  const convGr = new ConveyorBelt(xpos, ypos, w, 50, conveyor, speed);
   convGr.init(holder);
   conveyorGraphics.push(convGr);
 };
@@ -181,8 +190,8 @@ initSlider();
 makeParticles();
 //makeWindmills();
 //makeWheels();
-makeConveyor(325, 200, 600);
-makeConveyor(675, 500, 600);
+makeConveyor(400, 300, 600, 1);
+makeConveyor(600, 700, 600, -1);
 initWorld();
 
 update();
