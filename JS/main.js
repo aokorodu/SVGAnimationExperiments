@@ -15,7 +15,7 @@ const conveyorGraphics = [];
 const cups = [];
 const cupGraphics = [];
 
-const num = 200;
+const num = 300;
 const maxRadius = 8;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
@@ -121,7 +121,7 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
 };
 
 makeCups = () => {
-  buildCups(500, 400, 200, 300);
+  buildCups(500, 1950, 300, 100);
 };
 
 const buildCups = (xpos, ypos, width, height) => {
