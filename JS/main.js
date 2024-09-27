@@ -15,7 +15,7 @@ const conveyorGraphics = [];
 const cups = [];
 const cupGraphics = [];
 
-const num = 2;
+const num = 200;
 const maxRadius = 8;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
@@ -121,12 +121,12 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
 };
 
 makeCups = () => {
-  buildCups(500, 200, 400, 400);
+  buildCups(500, 400, 200, 300);
 };
 
 const buildCups = (xpos, ypos, width, height) => {
   const thickness = 20;
-  const h = Bodies.rectangle(0, height / 2 + thickness / 2, width, thickness, {
+  const h = Bodies.rectangle(0, 0, width, thickness, {
     id: `floor`,
     friction: 0,
     restitution: 1,
@@ -134,7 +134,7 @@ const buildCups = (xpos, ypos, width, height) => {
     // frictionStatic: 10,
   });
 
-  const l = Bodies.rectangle(-width / 2 - thickness / 2, 0, thickness, height, {
+  const l = Bodies.rectangle(0, 0, thickness, height, {
     id: `left_side`,
     friction: 0,
     restitution: 1,
@@ -142,7 +142,7 @@ const buildCups = (xpos, ypos, width, height) => {
     // frictionStatic: 10,
   });
 
-  const r = Bodies.rectangle(width / 2 + thickness / 2, 0, thickness, height, {
+  const r = Bodies.rectangle(0, 0, thickness, height, {
     id: `right_side`,
     friction: 0,
     restitution: 1,
@@ -158,6 +158,10 @@ const buildCups = (xpos, ypos, width, height) => {
     // frictionStatic: 10,
   });
   Matter.Body.setParts(b, [l, r, h]);
+  Matter.Body.setPosition(l, { x: -width / 2, y: 0 });
+  Matter.Body.setPosition(r, { x: width / 2, y: 0 });
+  Matter.Body.setPosition(h, { x: 0, y: height / 2 });
+
   Matter.Body.setPosition(b, { x: xpos, y: ypos });
 
   cups.push(b);

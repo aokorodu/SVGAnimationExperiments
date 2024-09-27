@@ -24,27 +24,19 @@ class Cup {
   }
 
   makeBlades() {
-    const l = document.createElementNS(this.namespace, "rect");
-    l.setAttribute("x", -this.width / 2 - 5);
-    l.setAttribute("y", -this.height / 2);
-    l.setAttribute("width", 10);
-    l.setAttribute("height", this.height);
+    const l = document.createElementNS(this.namespace, "path");
 
-    const r = document.createElementNS(this.namespace, "rect");
-    r.setAttribute("x", this.width / 2 + 5);
-    r.setAttribute("y", -this.height / 2);
-    r.setAttribute("width", 10);
-    r.setAttribute("height", this.height);
-
-    const bottom = document.createElementNS(this.namespace, "rect");
-    bottom.setAttribute("x", -this.width / 2);
-    bottom.setAttribute("y", this.height / 2 + 5);
-    bottom.setAttribute("width", this.width);
-    bottom.setAttribute("height", 10);
+    l.setAttribute(
+      "d",
+      `M${-this.width / 2},${-this.height / 2} v${this.height} h${
+        this.width
+      } v${-this.height}`
+    );
+    l.setAttribute("stroke", "white");
+    l.setAttribute("fill", "none");
+    l.setAttribute("stroke-width", 20);
 
     this.graphicHolder.appendChild(l);
-    this.graphicHolder.appendChild(r);
-    this.graphicHolder.appendChild(bottom);
   }
 
   changeSpeed(newSpeed) {
