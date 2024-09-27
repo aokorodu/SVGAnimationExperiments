@@ -1,6 +1,6 @@
 const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
 let w = 1000;
-let h = 1000;
+let h = 2000;
 
 const engine = Engine.create();
 const holder = document.querySelector("#holder");
@@ -13,7 +13,7 @@ const wheelGraphics = [];
 const conveyors = [];
 const conveyorGraphics = [];
 
-const num = 20;
+const num = 200;
 const maxRadius = 8;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
@@ -31,7 +31,7 @@ const initSlider = () => {
 
 const makeParticles = () => {
   for (let i = 0; i < num; i++) {
-    const radius = 10 + Math.round(Math.random() * maxRadius);
+    const radius = 5 + Math.round(Math.random() * maxRadius);
     const xpos = 500 + (Math.random() * 100 - 50);
     const ypos = i * -radius;
     const type = Math.random() > 0.5 ? "circle" : "rect";
@@ -82,8 +82,7 @@ const rightwall = Bodies.rectangle(1050, 500, 100, 1000, {
 });
 
 const makeWindmills = () => {
-  buildWindmill(275, 300, 425, 15);
-  buildWindmill(725, 300, 425, 15);
+  buildWindmill(500, 400, 425, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
@@ -120,9 +119,9 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
 };
 
 const makeWheels = () => {
-  //buildWheel(250, 600, 75);
-  buildWheel(500, 550, 75);
-  //buildWheel(750, 600, 75);
+  buildWheel(250, 800, 75);
+  buildWheel(500, 800, 100);
+  buildWheel(750, 800, 75);
 };
 
 const buildWheel = (xpos, ypos, r) => {
@@ -188,10 +187,11 @@ const initWorld = () => {
 
 initSlider();
 makeParticles();
-//makeWindmills();
-//makeWheels();
-makeConveyor(400, 300, 600, 1);
-makeConveyor(600, 700, 600, -1);
+makeWindmills();
+makeWheels();
+makeConveyor(1000, 1100, 1000, -1);
+makeConveyor(420, 1400, 700, 1);
+makeConveyor(1000, 1700, 1000, -1);
 initWorld();
 
 update();

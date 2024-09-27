@@ -60,7 +60,7 @@ class Particle {
       `translate(${pos.x} ${pos.y}) rotate(${angle})`
     );
 
-    if (this.matterball.position.y > 1100) {
+    if (this.matterball.position.y > 2100) {
       Matter.Body.setPosition(this.matterball, {
         x: 400 + Math.random() * 200,
         y: 0,
