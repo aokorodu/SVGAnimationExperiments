@@ -12,8 +12,10 @@ const wheels = [];
 const wheelGraphics = [];
 const conveyors = [];
 const conveyorGraphics = [];
+const cups = [];
+const cupGraphics = [];
 
-const num = 200;
+const num = 2;
 const maxRadius = 8;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
@@ -82,7 +84,7 @@ const rightwall = Bodies.rectangle(1050, 500, 100, 1000, {
 });
 
 const makeWindmills = () => {
-  buildWindmill(500, 400, 425, 15);
+  buildWindmill(750, 400, 300, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
@@ -116,6 +118,52 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
   const wm = new Windmill(xpos, ypos, bladeWidth, bladeThickness, spinSpeed, b); //new Windmill(500, 500, bladeWidth,);
   wm.init(holder);
   windmillGraphics.push(wm);
+};
+
+makeCups = () => {
+  buildCups(500, 200, 400, 400);
+};
+
+const buildCups = (xpos, ypos, width, height) => {
+  const thickness = 20;
+  const h = Bodies.rectangle(0, height / 2 + thickness / 2, width, thickness, {
+    id: `floor`,
+    friction: 0,
+    restitution: 1,
+    isStatic: true,
+    // frictionStatic: 10,
+  });
+
+  const l = Bodies.rectangle(-width / 2 - thickness / 2, 0, thickness, height, {
+    id: `left_side`,
+    friction: 0,
+    restitution: 1,
+    isStatic: true,
+    // frictionStatic: 10,
+  });
+
+  const r = Bodies.rectangle(width / 2 + thickness / 2, 0, thickness, height, {
+    id: `right_side`,
+    friction: 0,
+    restitution: 1,
+    isStatic: true,
+    // frictionStatic: 10,
+  });
+
+  const b = Matter.Body.create({
+    id: `cup_body`,
+    friction: 0,
+    restitution: 1,
+    isStatic: true,
+    // frictionStatic: 10,
+  });
+  Matter.Body.setParts(b, [l, r, h]);
+  Matter.Body.setPosition(b, { x: xpos, y: ypos });
+
+  cups.push(b);
+  const cup = new Cup(xpos, ypos, width, height, spinSpeed, b);
+  cup.init(holder);
+  cupGraphics.push(cup);
 };
 
 const makeWheels = () => {
@@ -181,13 +229,20 @@ const update = () => {
 
 const initWorld = () => {
   let runner = Runner.create();
-  World.add(engine.world, [...balls, ...windmills, ...wheels, ...conveyors]);
+  World.add(engine.world, [
+    ...balls,
+    ...windmills,
+    ...wheels,
+    ...conveyors,
+    ...cups,
+  ]);
   Runner.run(runner, engine);
 };
 
 initSlider();
 makeParticles();
-makeWindmills();
+//makeWindmills();
+makeCups();
 makeWheels();
 makeConveyor(1000, 1100, 1000, -1);
 makeConveyor(420, 1400, 700, 1);
