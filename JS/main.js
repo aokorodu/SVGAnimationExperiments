@@ -1,4 +1,4 @@
-const { Engine, Render, Runner, Bodies, Composite, World } = Matter;
+const { Engine, Events, Render, Runner, Bodies, Composite, World } = Matter;
 let w = 1000;
 let h = 2000;
 
@@ -15,8 +15,10 @@ const conveyorGraphics = [];
 const cups = [];
 const cupGraphics = [];
 
-const num = 300;
-const maxRadius = 8;
+let collider;
+
+const num = 100;
+const maxRadius = 5;
 const wmbladeWidth = 600;
 let spinSpeed = 0;
 const spinSlider = document.querySelector("#spinSlider");
@@ -217,6 +219,33 @@ const makeConveyor = (xpos, ypos, w, speed) => {
   conveyorGraphics.push(convGr);
 };
 
+const makeSensor = () => {
+  const sensorGraphic = document.querySelector("#sensorGraphic");
+  const xpos = parseFloat(sensorGraphic.getAttribute("x"));
+  const ypos = parseFloat(sensorGraphic.getAttribute("y"));
+  const sw = parseFloat(sensorGraphic.getAttribute("width"));
+  const sh = parseFloat(sensorGraphic.getAttribute("height"));
+
+  collider = Bodies.rectangle(xpos + sw / 2, ypos + sh / 2, sw, sh, {
+    id: `collider`,
+    isSensor: true,
+    isStatic: true,
+  });
+
+  Events.on(engine, "collisionStart", (event) => {
+    var pairs = event.pairs;
+
+    for (var i = 0, j = pairs.length; i != j; ++i) {
+      var pair = pairs[i];
+      if (pair.bodyA.id === "collider" || pair.bodyB.id === "collider") {
+        let id = pair.bodyA.id == "collider" ? pair.bodyB.id : pair.bodyA.id;
+        const index = parseInt(id.substr(5));
+        ballGraphics[index].changecolor();
+      }
+    }
+  });
+};
+
 const update = () => {
   ballGraphics.forEach((particle) => {
     particle.update();
@@ -241,6 +270,7 @@ const update = () => {
 const initWorld = () => {
   let runner = Runner.create();
   World.add(engine.world, [
+    collider,
     ...balls,
     ...windmills,
     ...wheels,
@@ -259,6 +289,7 @@ makeCups();
 makeConveyor(225, 800, 350, 1);
 makeConveyor(775, 800, 350, -1);
 makeConveyor(700, 1550, 1200, 1);
+makeSensor();
 initWorld();
 
 update();

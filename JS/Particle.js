@@ -16,13 +16,19 @@ class Particle {
     this.graphicHolder = this.getGraphicHolder();
     this.graphic =
       this.type == "circle" ? this.makeACircle() : this.makeARect();
-    this.graphic.setAttribute("fill", this.color);
-    this.graphic.setAttribute("fill-opacity", 0.4);
-    this.graphic.setAttribute("stroke", this.color);
+    this.graphic.setAttribute("fill", "#FFFFFF");
+    this.graphic.setAttribute("fill-opacity", 0.8);
+    this.graphic.setAttribute("stroke", "#FFFFFF");
     this.graphic.setAttribute("stroke-width", "3");
     this.graphic.setAttribute("stroke-opacity", 1);
     this.graphicHolder.appendChild(this.graphic);
     container.appendChild(this.graphicHolder);
+  }
+
+  changecolor(white = false) {
+    const c = white ? "#FFFFFF" : this.color;
+    this.graphic.setAttribute("fill", c);
+    this.graphic.setAttribute("stroke", c);
   }
 
   makeACircle() {
@@ -66,6 +72,8 @@ class Particle {
         y: 0,
       });
       Matter.Body.setSpeed(this.matterball, 0);
+      this.changecolor(true);
     }
+    // console.log("is sleeping? ", this.matterball.isSleeping);
   }
 }
