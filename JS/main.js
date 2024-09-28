@@ -284,7 +284,7 @@ initSlider();
 makeParticles();
 makeWheels();
 //makeWindmills();
-makeCups();
+//makeCups();
 
 makeConveyor(225, 800, 350, 1);
 makeConveyor(775, 800, 350, -1);
