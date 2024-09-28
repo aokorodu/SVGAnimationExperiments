@@ -32,7 +32,7 @@ class Cup {
         this.width
       } v${-this.height}`
     );
-    l.setAttribute("stroke", "white");
+    l.setAttribute("stroke", "red");
     l.setAttribute("fill", "none");
     l.setAttribute("stroke-width", 20);
 

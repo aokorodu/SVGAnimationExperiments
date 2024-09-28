@@ -53,7 +53,7 @@ const getCircBody = (xpos, ypos, radius, index, static = false) => {
   const b = Bodies.circle(xpos, ypos, radius, {
     id: `ball_${index}`,
     friction: 1,
-    restitution: 0.6,
+    restitution: 0.9,
     isStatic: static,
     frictionStatic: 1,
   });
@@ -78,13 +78,13 @@ const leftwall = Bodies.rectangle(-50, 500, 100, 1000, {
   id: "leftwall",
 });
 
-const rightwall = Bodies.rectangle(1050, 500, 100, 1000, {
+const rightwall = Bodies.rectangle(1000, 500, 100, 1500, {
   isStatic: true,
   id: "righttwall",
 });
 
 const makeWindmills = () => {
-  buildWindmill(750, 400, 300, 15);
+  buildWindmill(500, 400, 300, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
@@ -121,7 +121,7 @@ const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
 };
 
 makeCups = () => {
-  buildCups(500, 1950, 300, 100);
+  buildCups(1500, 1880, 350, 200);
 };
 
 const buildCups = (xpos, ypos, width, height) => {
@@ -171,9 +171,16 @@ const buildCups = (xpos, ypos, width, height) => {
 };
 
 const makeWheels = () => {
-  buildWheel(250, 800, 75);
-  buildWheel(500, 800, 100);
-  buildWheel(750, 800, 75);
+  buildWheel(300, 250, 50);
+  buildWheel(500, 250, 50);
+  buildWheel(700, 250, 50);
+  buildWheel(200, 400, 50);
+  buildWheel(400, 400, 50);
+  buildWheel(600, 400, 50);
+  buildWheel(800, 400, 50);
+  buildWheel(300, 550, 50);
+  buildWheel(500, 550, 50);
+  buildWheel(700, 550, 50);
 };
 
 const buildWheel = (xpos, ypos, r) => {
@@ -245,12 +252,13 @@ const initWorld = () => {
 
 initSlider();
 makeParticles();
+makeWheels();
 //makeWindmills();
 makeCups();
-makeWheels();
-makeConveyor(1000, 1100, 1000, -1);
-makeConveyor(420, 1400, 700, 1);
-makeConveyor(1000, 1700, 1000, -1);
+
+makeConveyor(225, 800, 350, 1);
+makeConveyor(775, 800, 350, -1);
+makeConveyor(700, 1550, 1200, 1);
 initWorld();
 
 update();
