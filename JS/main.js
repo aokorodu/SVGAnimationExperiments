@@ -17,12 +17,11 @@ const cupGraphics = [];
 
 let collider;
 
-const num = 100;
-const maxRadius = 5;
+const num = 200;
+const maxRadius = 7;
 const wmbladeWidth = 600;
-let spinSpeed = 0;
 const spinSlider = document.querySelector("#spinSlider");
-
+let spinSpeed = parseFloat(spinSlider.value);
 const initSlider = () => {
   spinSlider.addEventListener("input", (e) => {
     const val = e.target.value;
@@ -55,7 +54,7 @@ const getCircBody = (xpos, ypos, radius, index, static = false) => {
   const b = Bodies.circle(xpos, ypos, radius, {
     id: `ball_${index}`,
     friction: 1,
-    restitution: 0.9,
+    restitution: 0.5,
     isStatic: static,
     frictionStatic: 1,
   });
@@ -67,7 +66,7 @@ const getRectBody = (xpos, ypos, radius, index, static = false) => {
   const b = Bodies.rectangle(xpos, ypos, radius * 2, radius * 2, {
     id: `ball_${index}`,
     friction: 1,
-    restitution: 0.6,
+    restitution: 0.5,
     isStatic: static,
     frictionStatic: 1,
   });
@@ -80,13 +79,13 @@ const leftwall = Bodies.rectangle(-50, 500, 100, 1000, {
   id: "leftwall",
 });
 
-const rightwall = Bodies.rectangle(1000, 500, 100, 1500, {
+const rightwall = Bodies.rectangle(1025, 500, 50, 1900, {
   isStatic: true,
   id: "righttwall",
 });
 
 const makeWindmills = () => {
-  buildWindmill(500, 400, 300, 15);
+  buildWindmill(500, 1250, 500, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
@@ -226,7 +225,7 @@ const makeSensor = () => {
   const sw = parseFloat(sensorGraphic.getAttribute("width"));
   const sh = parseFloat(sensorGraphic.getAttribute("height"));
 
-  collider = Bodies.rectangle(xpos + sw / 2, ypos + sh / 2, sw, sh, {
+  collider = Bodies.rectangle(xpos + sw / 2 + 10, ypos + sh / 2, sw, sh, {
     id: `collider`,
     isSensor: true,
     isStatic: true,
@@ -276,6 +275,7 @@ const initWorld = () => {
     ...wheels,
     ...conveyors,
     ...cups,
+    rightwall,
   ]);
   Runner.run(runner, engine);
 };
@@ -283,12 +283,12 @@ const initWorld = () => {
 initSlider();
 makeParticles();
 makeWheels();
-//makeWindmills();
+makeWindmills();
 //makeCups();
 
 makeConveyor(225, 800, 350, 1);
-makeConveyor(775, 800, 350, -1);
-makeConveyor(700, 1550, 1200, 1);
+makeConveyor(765, 800, 350, -1);
+makeConveyor(1000, 1750, 1900, 2);
 makeSensor();
 initWorld();
 
