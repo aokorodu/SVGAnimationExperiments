@@ -82,7 +82,7 @@ class Particle {
       //Matter.Body.applyForce(this.matterball, pos, { x: 0.005, y: -0.05 });
       const vel = Matter.Body.getVelocity(this.matterball);
       Matter.Body.setVelocity(this.matterball, {
-        x: Math.random() * 10 - 5,
+        x: Math.random() * 5 - 2.5,
         y: -Math.random() * 20 - 30,
       });
       // Matter.Body.setPosition(this.matterball, {

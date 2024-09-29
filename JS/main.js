@@ -1,7 +1,7 @@
 const { Engine, Events, Render, Runner, Bodies, Composite, World } = Matter;
 let w = 1000;
 let h = 2000;
-
+const svg = document.querySelector("#svg");
 const engine = Engine.create();
 const holder = document.querySelector("#holder");
 const balls = [];
@@ -17,18 +17,19 @@ const cupGraphics = [];
 
 let collider;
 
-const num = 200;
+const num = 400;
 const maxRadius = 7;
 const wmbladeWidth = 600;
 const spinSlider = document.querySelector("#spinSlider");
-let spinSpeed = parseFloat(spinSlider.value);
+let spinSpeed = -0.01; // parseFloat(spinSlider.value);
 const initSlider = () => {
   spinSlider.addEventListener("input", (e) => {
     const val = e.target.value;
-    spinSpeed = parseFloat(val) / 20;
-    windmillGraphics.forEach((windmill) => {
-      windmill.changeSpeed(spinSpeed);
-    });
+    svg.setAttribute("viewBox", `${val} 0 1000 2000`);
+    // spinSpeed = parseFloat(val) / 20;
+    // windmillGraphics.forEach((windmill) => {
+    //   windmill.changeSpeed(spinSpeed);
+    // });
   });
 };
 
@@ -85,7 +86,7 @@ const rightwall = Bodies.rectangle(1025, 500, 50, 1900, {
 });
 
 const makeWindmills = () => {
-  buildWindmill(500, 1250, 500, 15);
+  buildWindmill(500, 1450, 400, 15);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
