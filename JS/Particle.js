@@ -19,16 +19,16 @@ class Particle {
     //   this.type == "circle" ? this.makeACircle() : this.makeARect();
     this.graphic = this.makeACircle();
     this.graphic.setAttribute("fill", "#fff");
-    this.graphic.setAttribute("fill-opacity", 0.2);
-    this.graphic.setAttribute("stroke", "#fff");
+    this.graphic.setAttribute("fill-opacity", 0.6);
+    this.graphic.setAttribute("stroke", "#000");
     this.graphic.setAttribute("stroke-width", "3");
-    this.graphic.setAttribute("stroke-opacity", 1);
+    this.graphic.setAttribute("stroke-opacity", 0.8);
     this.graphicHolder.appendChild(this.graphic);
     container.appendChild(this.graphicHolder);
   }
 
-  changecolor(white = false) {
-    const c = white ? "#FFFFFF" : this.color;
+  changecolor(newColor) {
+    const c = newColor == null ? this.color : newColor;
     this.graphic.setAttribute("fill", c);
     this.graphic.setAttribute("fill-opacity", 0.8);
     this.graphic.setAttribute("stroke", c);
@@ -79,10 +79,11 @@ class Particle {
     // }
     if (this.matterball.position.x > 1500 && !this.popped) {
       this.popped = true;
+      this.changecolor("yellow");
       //Matter.Body.applyForce(this.matterball, pos, { x: 0.005, y: -0.05 });
       const vel = Matter.Body.getVelocity(this.matterball);
       Matter.Body.setVelocity(this.matterball, {
-        x: Math.random() * 5 - 2.5,
+        x: Math.random() * 5,
         y: -Math.random() * 20 - 30,
       });
       // Matter.Body.setPosition(this.matterball, {
@@ -99,7 +100,7 @@ class Particle {
             y: 0,
           });
           Matter.Body.setSpeed(this.matterball, 0);
-          this.changecolor(true);
+          this.changecolor("white");
         }
       }
     }
