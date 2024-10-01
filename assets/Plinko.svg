@@ -1,0 +1,66 @@
+<svg width="500" height="1000" viewBox="0 0 500 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Plinko">
+<rect width="500" height="1000" fill="#3F3D3D"/>
+<g id="pegs">
+<circle id="peg" cx="123" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_2" cx="122" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_3" cx="186" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_4" cx="185" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_5" cx="249" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_6" cx="248" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_7" cx="312" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_8" cx="311" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_9" cx="375" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_10" cx="374" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_11" cx="60" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_12" cx="59" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_13" cx="438" cy="160" r="10" fill="#D9D9D9"/>
+<circle id="peg_14" cx="437" cy="360" r="10" fill="#D9D9D9"/>
+<circle id="peg_15" cx="154" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_16" cx="153" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_17" cx="217" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_18" cx="216" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_19" cx="280" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_20" cx="279" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_21" cx="343" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_22" cx="342" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_23" cx="406" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_24" cx="405" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_25" cx="91" cy="210" r="10" fill="#D9D9D9"/>
+<circle id="peg_26" cx="90" cy="410" r="10" fill="#D9D9D9"/>
+<circle id="peg_27" cx="124" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_28" cx="123" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_29" cx="187" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_30" cx="186" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_31" cx="250" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_32" cx="249" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_33" cx="313" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_34" cx="312" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_35" cx="376" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_36" cx="375" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_37" cx="61" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_38" cx="60" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_39" cx="439" cy="260" r="10" fill="#D9D9D9"/>
+<circle id="peg_40" cx="438" cy="460" r="10" fill="#D9D9D9"/>
+<circle id="peg_41" cx="155" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_42" cx="154" cy="510" r="10" fill="#D9D9D9"/>
+<circle id="peg_43" cx="218" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_44" cx="217" cy="510" r="10" fill="#D9D9D9"/>
+<circle id="peg_45" cx="281" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_46" cx="280" cy="510" r="10" fill="#D9D9D9"/>
+<circle id="peg_47" cx="344" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_48" cx="343" cy="510" r="10" fill="#D9D9D9"/>
+<circle id="peg_49" cx="407" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_50" cx="406" cy="510" r="10" fill="#D9D9D9"/>
+<circle id="peg_51" cx="92" cy="310" r="10" fill="#D9D9D9"/>
+<circle id="peg_52" cx="91" cy="510" r="10" fill="#D9D9D9"/>
+</g>
+<g id="sensors">
+<rect id="sensor_1" y="900" width="100" height="100" fill="#D9D9D9"/>
+<rect id="sensor_2" x="100" y="900" width="100" height="100" fill="#D9D9D9"/>
+<rect id="sensor_3" x="200" y="900" width="100" height="100" fill="#D9D9D9"/>
+<rect id="sensor_4" x="300" y="900" width="100" height="100" fill="#D9D9D9"/>
+<rect id="sensor_5" x="400" y="900" width="100" height="100" fill="#D9D9D9"/>
+</g>
+</g>
+</svg>

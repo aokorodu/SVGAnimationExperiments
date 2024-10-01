@@ -17,8 +17,8 @@ const cupGraphics = [];
 
 let collider;
 
-const num = 400;
-const maxRadius = 7;
+const num = 100;
+const maxRadius = 17;
 const wmbladeWidth = 600;
 const spinSlider = document.querySelector("#spinSlider");
 let spinSpeed = -0.01; // parseFloat(spinSlider.value);
