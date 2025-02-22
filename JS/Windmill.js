@@ -34,11 +34,11 @@ class Windmill {
     const blade = document.createElementNS(this.namespace, "rect");
     blade.setAttribute("x", -w / 2);
     blade.setAttribute("y", -h / 2);
-    blade.setAttribute("ry", 5);
-    blade.setAttribute("rx", 5);
+    blade.setAttribute("ry", 10);
+    blade.setAttribute("rx", 10);
     blade.setAttribute("width", w);
     blade.setAttribute("height", h);
-    blade.setAttribute("fill", "#FFFFFF");
+    blade.setAttribute("fill", "#FFFF00");
 
     return blade;
   }

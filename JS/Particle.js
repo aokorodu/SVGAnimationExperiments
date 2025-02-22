@@ -5,6 +5,7 @@ class Particle {
     this.r = r;
     this.graphicHolder = null;
     this.graphic = null;
+    this.flower = null;
     this.matterball = matterball;
     this.type = type;
     this.namespace = "http://www.w3.org/2000/svg";
@@ -13,44 +14,49 @@ class Particle {
     this.popped = false;
   }
 
-  init(container, color = "#FF0000") {
+  init(container) {
     this.graphicHolder = this.getGraphicHolder();
-    // this.graphic =
-    //   this.type == "circle" ? this.makeACircle() : this.makeARect();
-    this.graphic = this.makeACircle();
-    this.graphic.setAttribute("fill", "#fff");
-    this.graphic.setAttribute("fill-opacity", 0.6);
-    this.graphic.setAttribute("stroke", "#000");
-    this.graphic.setAttribute("stroke-width", "3");
-    this.graphic.setAttribute("stroke-opacity", 0.8);
-    this.graphicHolder.appendChild(this.graphic);
+    this.graphic = this.getCircleGraphic();
+    this.flower = this.getFlowerGraphic();
+    this.graphicHolder.append(this.graphic);
+    this.graphicHolder.append(this.flower);
     container.appendChild(this.graphicHolder);
   }
 
-  changecolor(newColor) {
-    const c = newColor == null ? this.color : newColor;
-    this.graphic.setAttribute("fill", c);
-    this.graphic.setAttribute("fill-opacity", 0.8);
-    this.graphic.setAttribute("stroke", c);
+  getCircleGraphic() {
+    const circle = document.createElementNS(this.namespace, "circle");
+    circle.setAttribute("cx", 0);
+    circle.setAttribute("cy", 0);
+    circle.setAttribute("r", this.r);
+    circle.setAttribute("fill", this.color);
+    circle.setAttribute("fill-opacity", 0.5);
+    circle.setAttribute("stroke", this.color);
+    circle.setAttribute("stroke-width", "3");
+    circle.setAttribute("stroke-opacity", 0.8);
+
+    return circle;
   }
 
-  makeACircle() {
-    const shape = document.createElementNS(this.namespace, "circle");
-    shape.setAttribute("cx", 0);
-    shape.setAttribute("cy", 0);
-    shape.setAttribute("r", this.r);
-
-    return shape;
+  getFlowerGraphic() {
+    const flower = document.createElementNS(this.namespace, "use");
+    flower.setAttribute("fill", this.color);
+    flower.setAttribute("href", "#flower");
+    flower.setAttribute("transform", `scale(${this.r / 25})`);
+    flower.setAttribute("opacity", 0);
+    return flower;
   }
 
-  makeARect() {
-    const shape = document.createElementNS(this.namespace, "rect");
-    shape.setAttribute("x", -this.r);
-    shape.setAttribute("y", -this.r);
-    shape.setAttribute("width", this.r * 2);
-    shape.setAttribute("height", this.r * 2);
+  changecolor() {
+    this.flower.setAttribute("opacity", 0.9);
+  }
 
-    return shape;
+  reset() {
+    this.graphic.setAttribute("fill", this.color);
+    this.graphic.setAttribute("fill-opacity", 0.5);
+    this.graphic.setAttribute("stroke", this.color);
+    this.graphic.setAttribute("stroke-width", "3");
+    this.graphic.setAttribute("stroke-opacity", 0.8);
+    this.flower.setAttribute("opacity", 0);
   }
 
   getGraphicHolder() {
@@ -79,7 +85,7 @@ class Particle {
     // }
     if (this.matterball.position.x > 1500 && !this.popped) {
       this.popped = true;
-      this.changecolor("yellow");
+      this.changecolor();
       //Matter.Body.applyForce(this.matterball, pos, { x: 0.005, y: -0.05 });
       const vel = Matter.Body.getVelocity(this.matterball);
       Matter.Body.setVelocity(this.matterball, {
@@ -100,7 +106,7 @@ class Particle {
             y: 0,
           });
           Matter.Body.setSpeed(this.matterball, 0);
-          this.changecolor("white");
+          this.reset();
         }
       }
     }

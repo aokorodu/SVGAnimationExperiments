@@ -17,7 +17,7 @@ const cupGraphics = [];
 
 let collider;
 
-const num = 100;
+const num = 50;
 const maxRadius = 17;
 const wmbladeWidth = 600;
 const spinSlider = document.querySelector("#spinSlider");
@@ -86,7 +86,7 @@ const rightwall = Bodies.rectangle(1025, 500, 50, 1900, {
 });
 
 const makeWindmills = () => {
-  buildWindmill(500, 1450, 400, 15);
+  buildWindmill(500, 1400, 400, 20);
 };
 
 const buildWindmill = (xpos, ypos, bladeWidth, bladeThickness) => {
