@@ -15,6 +15,8 @@ let leftEBTween = null;
 let rightEBTween = null;
 let leftEyeTween = null;
 let rightEyeTween = null;
+let leftPupilTween = null;
+let rightPupilTween = null;
 
 //paths
 const mouthPath = document.querySelector("#mouthPath");
@@ -22,6 +24,8 @@ const leftEBPath = document.querySelector("#leftEBPath");
 const rightEBPath = document.querySelector("#rightEBPath");
 const leftEye = document.querySelector("#leftEye");
 const rightEye = document.querySelector("#rightEye");
+const leftPupil = document.querySelector("#leftPupil");
+const rightPupil = document.querySelector("#rightPupil");
 
 // smile | frown | mad | smirk | surprised | blank
 
@@ -102,8 +106,11 @@ function changeExpression(moutPTs, lftEBPTs, rgtEBPTs, lftEyePTs, rgtEyePTs) {
   animateRightEyebrowPoints(rgtEBPTs);
   animateLeftEyePoints(lftEyePTs);
   animateRightEyePoints(rgtEyePTs);
+  animateLeftPupilPoints(lftEyePTs);
+  animateRightPupilPoints(rgtEyePTs);
 }
 
+// ANIMATE MOUTH POINTS
 function animateMouthPoints(newPoints) {
   mouthTween = gsap.timeline({ onUpdate: updateMouth });
   mouthTween.to(mouthPoints, {
@@ -119,6 +126,7 @@ function animateMouthPoints(newPoints) {
   });
 }
 
+// ANIMATE EYEBROW POINTS
 function animateLeftEyebrowPoints(newPoints) {
   leftEBTween = gsap.timeline({ onUpdate: updateLeftEyebrow });
   leftEBTween.to(lftEBPoints, {
@@ -145,22 +153,40 @@ function animateRightEyebrowPoints(newPoints) {
   });
 }
 
+// ANIMATE EYE POINTS
 function animateLeftEyePoints(newPoints) {
   leftEyeTween = gsap.timeline({ onUpdate: updateLeftEye });
-  leftEyeTween.to(leftEyePoints, {
-    r: newPoints.r,
+  leftEyeTween.to(leftEyePoints.eye, {
+    r: newPoints.eye.r,
     duration: dur,
   });
 }
 
 function animateRightEyePoints(newPoints) {
   rightEyeTween = gsap.timeline({ onUpdate: updateRightEye });
-  rightEyeTween.to(rightEyePoints, {
-    r: newPoints.r,
+  rightEyeTween.to(rightEyePoints.eye, {
+    r: newPoints.eye.r,
     duration: dur,
   });
 }
 
+function animateLeftPupilPoints(newPoints) {
+  leftPupilTween = gsap.timeline({ onUpdate: updateLeftPupil });
+  leftPupilTween.to(leftEyePoints.pupil, {
+    r: newPoints.pupil.r,
+    duration: dur,
+  });
+}
+
+function animateRightPupilPoints(newPoints) {
+  rightPupilTween = gsap.timeline({ onUpdate: updateRightPupil });
+  rightPupilTween.to(rightEyePoints.pupil, {
+    r: newPoints.pupil.r,
+    duration: dur,
+  });
+}
+
+// UPDATE SVG ELEMENTS
 function updateMouth() {
   const pathString = `M${mouthPoints.leftX},${mouthPoints.leftY} Q${mouthPoints.midTopX},${mouthPoints.midTopY} ${mouthPoints.rightX},${mouthPoints.rightY} Q${mouthPoints.midBottomX},${mouthPoints.midBottomY} ${mouthPoints.leftX},${mouthPoints.leftY}`;
   mouthPath.setAttribute("d", pathString);
@@ -177,9 +203,17 @@ function updateRightEyebrow() {
 }
 
 function updateLeftEye() {
-  leftEye.setAttribute("r", leftEyePoints.r);
+  leftEye.setAttribute("r", leftEyePoints.eye.r);
 }
 
 function updateRightEye() {
-  rightEye.setAttribute("r", rightEyePoints.r);
+  rightEye.setAttribute("r", rightEyePoints.eye.r);
+}
+
+function updateLeftPupil() {
+  leftPupil.setAttribute("r", leftEyePoints.pupil.r);
+}
+
+function updateRightPupil() {
+  rightPupil.setAttribute("r", rightEyePoints.pupil.r);
 }

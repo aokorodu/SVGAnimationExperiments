@@ -24,13 +24,13 @@ const mouthDefault = {
 
 const smileMouth = {
   leftX: -100,
-  leftY: 0,
+  leftY: -10,
   rightX: 100,
-  rightY: 0,
+  rightY: -10,
   midTopX: 0,
-  midTopY: 10,
+  midTopY: 0,
   midBottomX: 0,
-  midBottomY: 100,
+  midBottomY: 80,
 };
 
 const frownMouth = {
@@ -90,13 +90,13 @@ const blankMouth = {
 
 const evilMouth = {
   leftX: -100,
-  leftY: 0,
+  leftY: -10,
   rightX: 100,
-  rightY: 0,
+  rightY: -10,
   midTopX: 0,
-  midTopY: 50,
+  midTopY: 30,
   midBottomX: 0,
-  midBottomY: 100,
+  midBottomY: 70,
 };
 
 // left eyebrow
@@ -141,7 +141,7 @@ let lftEBMad = {
   leftY: 0,
   midX: 0,
   midY: 5,
-  rightX: 10,
+  rightX: 15,
   rightY: 10,
 };
 
@@ -158,9 +158,9 @@ let lftEBSurprised = {
   leftX: -10,
   leftY: 0,
   midX: 0,
-  midY: -10,
+  midY: -20,
   rightX: 10,
-  rightY: -20,
+  rightY: 0,
 };
 
 let lftEBBlank = {
@@ -210,7 +210,7 @@ let rgtEBFrown = {
 };
 
 let rgtEBMad = {
-  leftX: -10,
+  leftX: -15,
   leftY: 10,
   midX: 0,
   midY: 5,
@@ -229,9 +229,9 @@ let rgtEBSmirk = {
 
 let rgtEBSurprised = {
   leftX: -10,
-  leftY: -20,
+  leftY: 0,
   midX: 0,
-  midY: -10,
+  midY: -20,
   rightX: 10,
   rightY: 0,
 };
@@ -247,58 +247,128 @@ let rgtEBBlank = {
 
 // left eye
 let leftEyePoints = {
-  r: 20,
+  pupil: {
+    r: 20,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const leftEyeSmile = {
-  r: 20,
+  pupil: {
+    r: 15,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const leftEyeFrown = {
-  r: 20,
+  pupil: {
+    r: 17,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const leftEyeMad = {
-  r: 12,
+  pupil: {
+    r: 5,
+  },
+  eye: {
+    r: 15,
+  },
 };
 
 const leftEyeSmirk = {
-  r: 15,
+  pupil: {
+    r: 10,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const leftEyeSurprised = {
-  r: 25,
+  pupil: {
+    r: 5,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const leftEyeBlank = {
-  r: 5,
+  pupil: {
+    r: 20,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 // right eye
 let rightEyePoints = {
-  r: 20,
+  pupil: {
+    r: 20,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const rightEyeSmile = {
-  r: 20,
+  pupil: {
+    r: 15,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const rightEyeFrown = {
-  r: 20,
+  pupil: {
+    r: 17,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const rightEyeMad = {
-  r: 12,
+  pupil: {
+    r: 5,
+  },
+  eye: {
+    r: 15,
+  },
 };
 
 const rightEyeSmirk = {
-  r: 15,
+  pupil: {
+    r: 10,
+  },
+  eye: {
+    r: 15,
+  },
 };
 
 const rightEyeSurprised = {
-  r: 25,
+  pupil: {
+    r: 5,
+  },
+  eye: {
+    r: 20,
+  },
 };
 
 const rightEyeBlank = {
-  r: 5,
+  pupil: {
+    r: 20,
+  },
+  eye: {
+    r: 20,
+  },
 };
