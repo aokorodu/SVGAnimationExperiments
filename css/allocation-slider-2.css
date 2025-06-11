@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.section {
+  cursor: pointer;
+  rx: 14px;
+  ry: 14px;
+  stroke-width: 6px;
+  stroke: #ffffff;
+}
+.section:hover {
+  cursor: grab;
+}
+
+.dragger {
+  fill: black;
+  fill-opacity: 0;
+}

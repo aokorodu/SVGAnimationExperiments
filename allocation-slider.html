@@ -63,6 +63,12 @@
       svg.addEventListener("mousemove", drawDrag);
       svg.addEventListener("mouseup", stopDrag);
       svg.addEventListener("mouseout", stopDrag);
+      svg.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        drawDrag(e.touches[0]);
+      });
+      svg.addEventListener("touchend", stopDrag);
+      svg.addEventListener("touchcancel", stopDrag);
     }
 
     function initRectListeners() {
@@ -70,11 +76,20 @@
         rect.addEventListener("mousedown", (e) => {
           isDragging = true;
           currentRectIndex = index == rects.length - 1 ? index - 1 : index;
-          //   referencePos.x = parseInt(currentRect.getAttribute("x"));
-          //   referencePos.width = parseInt(currentRect.getAttribute("width"));
           establishPositions();
           dragReferenceX = toSVGPoint(e.clientX, e.clientY, svg).x;
-          //console.log("refX: ", dragReferenceX);
+        });
+
+        rect.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          isDragging = true;
+          currentRectIndex = index == rects.length - 1 ? index - 1 : index;
+          establishPositions();
+          dragReferenceX = toSVGPoint(
+            e.touches[0].clientX,
+            e.touches[0].clientY,
+            svg
+          ).x;
         });
       });
     }
