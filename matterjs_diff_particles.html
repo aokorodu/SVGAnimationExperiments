@@ -7,14 +7,25 @@
     <script src="JS/matter.js"></script>
     <script src="JS/Particle.js"></script>
     <script src="JS/Windmill.js"></script>
+    <script src="JS/Cup.js"></script>
     <script src="JS/Wheel.js"></script>
     <script src="JS/ConveyorBelt.js"></script>
 
     <title>Document</title>
   </head>
   <body>
-    <svg width="350" height="700" viewBox="0 0 1000 2000">
+    <svg id="svg" width="400" height="800" viewBox="0 0 1000 2000">
       <defs>
+        <g id="flower">
+          <g transform="translate(-50 -50)">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M35.2377 64.7623C32.1131 65.671 28.6478 66.1765 25 66.1765C11.1929 66.1765 0 58.934 0 50C0 41.066 11.1929 33.8235 25 33.8235C28.6478 33.8235 32.1131 34.329 35.2377 35.2377C34.329 32.1131 33.8235 28.6478 33.8235 25C33.8235 11.1929 41.066 0 50 0C58.934 0 66.1765 11.1929 66.1765 25C66.1765 28.6478 65.671 32.1131 64.7623 35.2377C67.8869 34.329 71.3522 33.8235 75 33.8235C88.8071 33.8235 100 41.066 100 50C100 58.934 88.8071 66.1765 75 66.1765C71.3522 66.1765 67.8869 65.671 64.7623 64.7623C65.671 67.8869 66.1765 71.3522 66.1765 75C66.1765 88.8071 58.934 100 50 100C41.066 100 33.8235 88.8071 33.8235 75C33.8235 71.3522 34.329 67.8869 35.2377 64.7623Z"
+            />
+            <circle cx="50" cy="48" r="10" fill="white" fill-opacity="0.52" />
+          </g>
+        </g>
         <g id="gear">
           <g transform="translate(-50 -50)">
             <path
@@ -24,16 +35,66 @@
             />
           </g>
         </g>
+        <g id="transformer">
+          <g transform="translate(-200 -50)">
+            <rect
+              width="400"
+              height="100"
+              rx="40"
+              fill="url(#transformer_gradient)"
+            />
+            <rect y="38" width="400" height="25" fill="#EE4700" />
+            <circle cx="51.5" cy="50.5" r="7.5" fill="#32E704" />
+            <circle cx="150.5" cy="50.5" r="7.5" fill="#04E751" />
+            <circle cx="249.5" cy="50.5" r="7.5" fill="#04E751" />
+            <circle cx="348.5" cy="50.5" r="7.5" fill="#04E751" />
+          </g>
+        </g>
+        <linearGradient
+          id="transformer_gradient"
+          x1="221.5"
+          y1="4.61188e-08"
+          x2="221"
+          y2="100"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#D9D9D9" />
+          <stop offset="0.54" stop-color="#FF8956" />
+          <stop offset="1" stop-color="#D9D9D9" />
+        </linearGradient>
       </defs>
-      <rect x="0" y="0" width="1000" height="2000" fill="#212121" />
+      <rect x="0" y="0" width="2000" height="2000" fill="#212121" />
       <g id="holder"></g>
+
+      <rect
+        id="sensorGraphic"
+        x="300"
+        y="1000"
+        rx="40"
+        ry="40"
+        width="400"
+        height="100"
+        fill="#fff"
+      />
+      <use href="#transformer" x="500" y="1050" />
+      <rect
+        x="1450"
+        y="1570"
+        rx="40"
+        ry="40"
+        width="100"
+        height="400"
+        fill="#fff"
+      />
+
+      <rect x="1000" y="0" width="10" height="1500" fill="#fff" />
     </svg>
     <input
       id="spinSlider"
       type="range"
-      min="-1"
-      max="1"
-      step="0.01"
+      min="0"
+      max="1000"
+      step="0.1"
       value="0"
     />
   </body>

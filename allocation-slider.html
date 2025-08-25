@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="700" height="350" viewBox="0 0 1000 500">
+      <g id="rects" fill-opacity="1" stroke="white">
+        <rect
+          id="one"
+          class="draggable"
+          x="0"
+          y="200"
+          width="333"
+          height="150"
+          fill="#F7374F"
+        />
+        <rect
+          id="two"
+          class="draggable"
+          x="333"
+          y="200"
+          width="333"
+          height="150"
+          fill="#88304E"
+        />
+        <rect
+          id="three"
+          class="draggable"
+          x="666"
+          y="200"
+          width="333"
+          height="150"
+          fill="#522546"
+        />
+      </g>
+    </svg>
+  </body>
+  <script>
+    const svg = document.querySelector("svg");
+    const rects = document.querySelectorAll(".draggable");
+
+    let isDragging = false;
+    let currentRectIndex = 0;
+    let dragReferenceX = 0;
+    let referencePos = [
+      { x: 0, width: 333 },
+      { x: 333, width: 333 },
+      { x: 666, width: 333 },
+    ];
+    const dimensions = [33, 66, 100];
+
+    init();
+
+    function init() {
+      initSVGListeners();
+      initRectListeners();
+    }
+
+    function initSVGListeners() {
+      svg.addEventListener("mousemove", drawDrag);
+      svg.addEventListener("mouseup", stopDrag);
+      svg.addEventListener("mouseout", stopDrag);
+      svg.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        drawDrag(e.touches[0]);
+      });
+      svg.addEventListener("touchend", stopDrag);
+      svg.addEventListener("touchcancel", stopDrag);
+    }
+
+    function initRectListeners() {
+      rects.forEach((rect, index) => {
+        rect.addEventListener("mousedown", (e) => {
+          isDragging = true;
+          currentRectIndex = index == rects.length - 1 ? index - 1 : index;
+          establishPositions();
+          dragReferenceX = toSVGPoint(e.clientX, e.clientY, svg).x;
+        });
+
+        rect.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          isDragging = true;
+          currentRectIndex = index == rects.length - 1 ? index - 1 : index;
+          establishPositions();
+          dragReferenceX = toSVGPoint(
+            e.touches[0].clientX,
+            e.touches[0].clientY,
+            svg
+          ).x;
+        });
+      });
+    }
+
+    function establishPositions() {
+      rects.forEach((rect, index) => {
+        const refPos = referencePos[index];
+        const x = rect.getAttribute("x");
+        const width = rect.getAttribute("width");
+        refPos.x = parseInt(x);
+        refPos.width = parseInt(width);
+      });
+    }
+
+    function updatePositions() {
+      rects.forEach((rect, index) => {
+        const x = referencePos[index].x;
+        const width = referencePos[index].width;
+        rect.setAttribute("x", x);
+        rect.setAttribute("width", width);
+      });
+    }
+
+    function drawDrag(e) {
+      if (isDragging && currentRectIndex !== null) {
+        const x = toSVGPoint(e.clientX, e.clientY, svg).x;
+        let dx = x - dragReferenceX;
+        //console.log("dx: ", dx);
+        updateRectData(dx);
+        drawRects();
+        dragReferenceX = x;
+      }
+    }
+
+    function updateRectData(dx) {
+      for (let i = 0; i < rects.length; i++) {
+        if (i === currentRectIndex) {
+          let newWidth = referencePos[i].width + dx;
+          if (newWidth < 0) {
+            newWidth = 0;
+          }
+          let endX = referencePos[i].x + newWidth;
+          if (endX > 1000) {
+            newWidth = 1000 - referencePos[i].x;
+          }
+          referencePos[i].width = newWidth;
+        } else {
+          if (i > 0) {
+            let endX = referencePos[i].x + referencePos[i].width;
+            let newX = referencePos[i - 1].x + referencePos[i - 1].width;
+            let newWidth = endX - newX;
+            if (newWidth < 0) {
+              newWidth = 0;
+            }
+            referencePos[i].x = newX;
+            referencePos[i].width = newWidth;
+          }
+        }
+      }
+
+      //console.log("referencePos: ", referencePos);
+    }
+
+    function drawRects() {
+      rects.forEach((rect, index) => {
+        const x = referencePos[index].x;
+        const width = referencePos[index].width;
+        rect.setAttribute("x", x);
+        rect.setAttribute("width", width);
+      });
+    }
+
+    function stopDrag() {
+      isDragging = false;
+      currentRect = null;
+    }
+
+    function toSVGPoint(x, y, theSVG) {
+      let p = new DOMPoint(x, y);
+      return p.matrixTransform(theSVG.getScreenCTM().inverse());
+    }
+  </script>
+  <style>
+    .draggable {
+      cursor: pointer;
+      rx: 10px;
+      ry: 10px;
+      stroke-width: 5px;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)) inset;
+    }
+    .draggable:hover {
+      cursor: grab;
+    }
+  </style>
+</html>

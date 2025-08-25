@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg width="" height="" viewBox="">
+      <rect
+        id="bg"
+        x="0"
+        y="0"
+        width=""
+        height=""
+        fill="#eaeaea"
+        stroke="black"
+        stroke-width="2"
+      />
+      <g id="headHolder" transform="translate(250 220)">
+        <circle
+          id="head"
+          cx="0"
+          cy="0"
+          r="160"
+          fill="none"
+          stroke="white"
+          stroke-width="2"
+        />
+      </g>
+      <g id="leftEyebrowHolder" transform="translate(190 150)">
+        <path
+          id="leftEBPath"
+          d="M-10,0 Q0,0 10,0"
+          stroke="white"
+          stroke-width="5"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </g>
+      <g id="rightEyebrowHolder" transform="translate(310 150)">
+        <path
+          id="rightEBPath"
+          d="M-10,0 Q0,0 10,0"
+          stroke="white"
+          stroke-width="5"
+          stroke-linecap="round"
+          fill="none"
+        />
+      </g>
+      <g id="leftEyeHolder" transform="translate(200 180)">
+        <circle
+          id="leftEye"
+          cx="0"
+          cy="0"
+          r="20"
+          fill="white"
+          stroke="black"
+          stroke-width="2"
+        />
+        <circle
+          id="leftPupil"
+          cx="0"
+          cy="0"
+          r="10"
+          fill="black"
+          stroke="white"
+        />
+      </g>
+      <g id="rightEyeHolder" transform="translate(300 180)">
+        <circle
+          id="rightEye"
+          cx="0"
+          cy="0"
+          r="20"
+          fill="white"
+          stroke="black"
+          stroke-width="2"
+        />
+        <circle
+          id="rightPupil"
+          cx="0"
+          cy="0"
+          r="10"
+          fill="black"
+          stroke="white"
+        />
+      </g>
+      <g id="noseHolder" transform="translate(237 185)">
+        <path
+          d="M8.87402 3C19.2497 20.07 24.6992 29.6291 26 46.4198C19.3794 53.3357 13.175 53.6157 1 52.5115"
+          stroke="white"
+          stroke-width="5"
+          fill="none"
+        />
+      </g>
+      <g id="mouthHolder" transform="translate(250 280)">
+        <path
+          id="mouthPath"
+          d="M-100,0 Q0,0 100,0 Q0,0 -100,0"
+          stroke="white"
+          fill="white"
+        />
+      </g>
+    </svg>
+    <!-- This SVG represents a simple face with eyebrows, eyes, nose, and mouth -->
+    <div>
+      <button onclick="smile()">Smile</button>
+      <button onclick="frown()">Frown</button>
+      <button onclick="mad()">Mad</button>
+      <button onclick="smirk()">Smirk</button>
+      <button onclick="surprised()">Surprised</button>
+      <button onclick="blank()">Blank</button>
+      <button onclick="evil()">Evil</button>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="JS/gsap_expressions_data.js"></script>
+  <script src="JS/gsap_expressions.js"></script>
+</html>

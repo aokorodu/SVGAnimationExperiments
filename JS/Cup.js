@@ -1,9 +1,9 @@
-class Windmill {
-  constructor(x, y, w, thickness, speed, matterbody = null) {
+class Cup {
+  constructor(x, y, width, height, speed, matterbody = null) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.bladeHeight = thickness;
+    this.width = width;
+    this.height = height;
     this.speed = speed;
     this.graphicHolder = null;
     this.matterbody = matterbody;
@@ -12,35 +12,31 @@ class Windmill {
 
   init(container) {
     this.graphicHolder = document.createElementNS(this.namespace, "g");
+    this.graphicHolder.setAttribute("fill", "white");
+    this.graphicHolder.setAttribute("stroke", "none");
     container.appendChild(this.graphicHolder);
     this.graphicHolder.setAttribute(
       "transform",
       `translate(${this.x} ${this.y})`
     );
 
-    this.makeBlades(this.graphicHolder);
-    container.appendChild(this.graphicHolder);
+    this.makeBlades();
   }
 
-  makeBlades(holder) {
-    const horizontalBlade = this.getBlade(this.w, this.bladeHeight);
-    const verticalBlade = this.getBlade(this.bladeHeight, this.w);
+  makeBlades() {
+    const l = document.createElementNS(this.namespace, "path");
 
-    holder.appendChild(horizontalBlade);
-    holder.appendChild(verticalBlade);
-  }
+    l.setAttribute(
+      "d",
+      `M${-this.width / 2},${-this.height / 2} v${this.height} h${
+        this.width
+      } v${-this.height}`
+    );
+    l.setAttribute("stroke", "red");
+    l.setAttribute("fill", "none");
+    l.setAttribute("stroke-width", 20);
 
-  getBlade(w, h) {
-    const blade = document.createElementNS(this.namespace, "rect");
-    blade.setAttribute("x", -w / 2);
-    blade.setAttribute("y", -h / 2);
-    blade.setAttribute("ry", 10);
-    blade.setAttribute("rx", 10);
-    blade.setAttribute("width", w);
-    blade.setAttribute("height", h);
-    blade.setAttribute("fill", "#FFFF00");
-
-    return blade;
+    this.graphicHolder.appendChild(l);
   }
 
   changeSpeed(newSpeed) {
